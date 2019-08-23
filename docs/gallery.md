@@ -418,14 +418,25 @@ wilcox.test(x, y)$p.value # Wilcoxon检验的P值
 
 
 ```r
-library(RColorBrewer) # 用分类调色板
-par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
-death <- t(VADeaths)[, 5:1]
-barplot(death, col = brewer.pal(4, "Set1"))
-barplot(death,
-  col = brewer.pal(4, "Set1"), beside = TRUE,
-  legend.text = TRUE
-)
+# library(RColorBrewer) # 用分类调色板
+# par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
+# death <- t(VADeaths)[, 5:1]
+# 
+# barplot(death, col = brewer.pal(4, "Set1"))
+# barplot(death,
+#   col = brewer.pal(4, "Set1"), beside = TRUE,
+#   legend.text = TRUE
+# )
+
+pd <- VADeaths %>% 
+  as.data.frame() %>% 
+  mutate(age = rownames(.)) %>% 
+  gather(key = 'key', value = 'value', -age) %>% 
+  mutate(age = rev(factor(age))) %>% 
+  ggplot()
+pd1 <- pd + geom_bar(aes(x = age, y = value, fill = key), stat = 'identity')
+pd2 <- pd + geom_bar(aes(x = age, y = value, fill = key, ), stat = 'identity', position = 'dodge')
+ggarrange(pd1, pd2,  common.legend = TRUE, ncol = 1, legend = 'right')
 ```
 
 <div class="figure" style="text-align: center">

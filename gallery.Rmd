@@ -236,14 +236,26 @@ wilcox.test(x, y)$p.value # Wilcoxon检验的P值
 (ref:fig-vadeaths-barplot) 弗吉尼亚死亡率数据条形图： 堆砌和并列的条形图效果
 
 ```{r vadeaths-barplot, fig.width=4.8, fig.height=4.8, fig.cap = "(ref:fig-vadeaths-barplot)", fig.scap="(ref:fig-vadeaths-barplot-s)"}
-library(RColorBrewer) # 用分类调色板
-par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
-death <- t(VADeaths)[, 5:1]
-barplot(death, col = brewer.pal(4, "Set1"))
-barplot(death,
-  col = brewer.pal(4, "Set1"), beside = TRUE,
-  legend.text = TRUE
-)
+# library(RColorBrewer) # 用分类调色板
+# par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
+# death <- t(VADeaths)[, 5:1]
+# 
+# barplot(death, col = brewer.pal(4, "Set1"))
+# barplot(death,
+#   col = brewer.pal(4, "Set1"), beside = TRUE,
+#   legend.text = TRUE
+# )
+
+pd <- VADeaths %>% 
+  as.data.frame() %>% 
+  mutate(age = rownames(.)) %>% 
+  gather(key = 'key', value = 'value', -age) %>% 
+  mutate(age = rev(factor(age))) %>% 
+  ggplot()
+pd1 <- pd + geom_bar(aes(x = age, y = value, fill = key), stat = 'identity')
+pd2 <- pd + geom_bar(aes(x = age, y = value, fill = key, ), stat = 'identity', position = 'dodge')
+ggarrange(pd1, pd2,  common.legend = TRUE, ncol = 1, legend = 'right')
+
 ```
 
 如同前面 \@ref(sec:begin) 节中曾经提到的，条形图目前是各种统计图形中应用最广泛的，但条形图所能展示的统计量比较贫乏：它只能以矩形条的长度展示原始数值，对数据没有任何概括或推断。

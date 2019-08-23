@@ -452,14 +452,25 @@ Range，简称 <span class="math inline">\(\text{IQR}\equiv Q_3-Q_1\)</span>）�
 <h2><span class="header-section-number">1.4</span> 条形图</h2>
 
 
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">library</span>(RColorBrewer) <span class="co"># 用分类调色板</span></a>
-<a class="sourceLine" id="cb34-2" title="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span>))</a>
-<a class="sourceLine" id="cb34-3" title="3">death &lt;-<span class="st"> </span><span class="kw">t</span>(VADeaths)[, <span class="dv">5</span><span class="op">:</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb34-4" title="4"><span class="kw">barplot</span>(death, <span class="dt">col =</span> <span class="kw">brewer.pal</span>(<span class="dv">4</span>, <span class="st">&quot;Set1&quot;</span>))</a>
-<a class="sourceLine" id="cb34-5" title="5"><span class="kw">barplot</span>(death,</a>
-<a class="sourceLine" id="cb34-6" title="6">  <span class="dt">col =</span> <span class="kw">brewer.pal</span>(<span class="dv">4</span>, <span class="st">&quot;Set1&quot;</span>), <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb34-7" title="7">  <span class="dt">legend.text =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb34-8" title="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="co"># library(RColorBrewer) # 用分类调色板</span></a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="co"># par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))</span></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co"># death &lt;- t(VADeaths)[, 5:1]</span></a>
+<a class="sourceLine" id="cb34-4" title="4"><span class="co"># </span></a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="co"># barplot(death, col = brewer.pal(4, &quot;Set1&quot;))</span></a>
+<a class="sourceLine" id="cb34-6" title="6"><span class="co"># barplot(death,</span></a>
+<a class="sourceLine" id="cb34-7" title="7"><span class="co">#   col = brewer.pal(4, &quot;Set1&quot;), beside = TRUE,</span></a>
+<a class="sourceLine" id="cb34-8" title="8"><span class="co">#   legend.text = TRUE</span></a>
+<a class="sourceLine" id="cb34-9" title="9"><span class="co"># )</span></a>
+<a class="sourceLine" id="cb34-10" title="10"></a>
+<a class="sourceLine" id="cb34-11" title="11">pd &lt;-<span class="st"> </span>VADeaths <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-12" title="12"><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-13" title="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">age =</span> <span class="kw">rownames</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-14" title="14"><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&#39;key&#39;</span>, <span class="dt">value =</span> <span class="st">&#39;value&#39;</span>, <span class="op">-</span>age) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-15" title="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">age =</span> <span class="kw">rev</span>(<span class="kw">factor</span>(age))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-16" title="16"><span class="st">  </span><span class="kw">ggplot</span>()</a>
+<a class="sourceLine" id="cb34-17" title="17">pd1 &lt;-<span class="st"> </span>pd <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> value, <span class="dt">fill =</span> key), <span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>)</a>
+<a class="sourceLine" id="cb34-18" title="18">pd2 &lt;-<span class="st"> </span>pd <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> value, <span class="dt">fill =</span> key, ), <span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="st">&#39;dodge&#39;</span>)</a>
+<a class="sourceLine" id="cb34-19" title="19"><span class="kw">ggarrange</span>(pd1, pd2,  <span class="dt">common.legend =</span> <span class="ot">TRUE</span>, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">legend =</span> <span class="st">&#39;right&#39;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:vadeaths-barplot"></span>
 <img src="gallery_files/figure-html/vadeaths-barplot-1.svg" alt="弗吉尼亚死亡率数据条形图： 堆砌和并列的条形图效果" width="460.8" />
 <p class="caption">
