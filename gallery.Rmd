@@ -4,6 +4,11 @@
 >
 > --- 柯南$\cdot$ 道尔《血字的研究》
 
+```{r setup,include=FALSE}
+library(tidyverse)
+library(ggpubr)
+```
+
 
 本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 \@ref(sec:hist) 节到 \@ref(sec:pie) 节的所有图形都是基于 **graphics** 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。
 
@@ -63,12 +68,13 @@ usage(hist.default)
 
 
 ```{r hist-geyser,fig.width=4.8, fig.height=4, fig.cap="(ref:fig-hist-geyser)", fig.scap='(ref:fig-hist-geyser-s)'}
-par(mfrow = c(2, 2), mar = c(2, 3, 2, .5), mgp = c(2, .5, 0))
 data(geyser, package = "MASS")
-hist(geyser$waiting, main = "(1) freq = TRUE", xlab = "waiting")
-hist(geyser$waiting, freq = FALSE, xlab = "waiting", main = "(2) freq = FALSE")
-hist(geyser$waiting, breaks = 5, density = 10, xlab = "waiting", main = "(3) breaks = 5")
-hist(geyser$waiting, breaks = 40, col = "red", xlab = "waiting", main = "(4) breaks = 40")
+
+# par(mfrow = c(2, 2), mar = c(2, 3, 2, .5), mgp = c(2, .5, 0))
+# hist(geyser$waiting, main = "(1) freq = TRUE", xlab = "waiting")
+# hist(geyser$waiting, freq = FALSE, xlab = "waiting", main = "(2) freq = FALSE")
+# hist(geyser$waiting, breaks = 5, density = 10, xlab = "waiting", main = "(3) breaks = 5")
+# hist(geyser$waiting, breaks = 40, col = "red", xlab = "waiting", main = "(4) breaks = 40")
 
 p <- geyser %>% ggplot(aes(waiting))
 p1 <- p + geom_histogram()
@@ -86,7 +92,8 @@ ggarrange(p1, p2, p3, p4, labels = c('(1) freq = TRUE', '(2) freq = FALSE', '(3)
 (ref:fig-hist-density) 直方图与密度曲线的结合：借助函数 *density()* 可以计算出数据的核密度估计，然后利用低层作图函数 *lines()* 将核密度估计曲线添加到直方图中。
 
 ```{r hist-density,fig.width=3.5, fig.height=2, results='hide', tidy=TRUE, fig.cap='(ref:fig-hist-density)', fig.scap='(ref:fig-hist-density-s)'}
-demo("hist_geyser", package = "MSG")
+# demo("hist_geyser", package = "MSG")
+p2 + geom_density()
 ```
 
 
@@ -172,8 +179,9 @@ Range，简称 $\text{IQR}\equiv Q_3-Q_1$）的倍数，超过这个范围的数
 (ref:fig-insects-boxplot) 昆虫数目箱线图：六种杀虫剂下昆虫的数目分布。
 
 ```{r insects-boxplot, fig.width=4.8, fig.height=1.8, tidy=TRUE, fig.cap="(ref:fig-insects-boxplot)", fig.scap="(ref:fig-insects-boxplot-s)"}
-par(mar = c(2, 2.5, .2, .1))
-boxplot(count ~ spray, data = InsectSprays, col = "lightgray", horizontal = TRUE, pch = 4)
+# par(mar = c(2, 2.5, .2, .1))
+# boxplot(count ~ spray, data = InsectSprays, col = "lightgray", horizontal = TRUE, pch = 4)
+
 InsectSprays %>% 
   ggplot() +
   geom_boxplot(aes(spray, count)) +
@@ -206,10 +214,10 @@ summary(insects.aov)
 par(mar = c(2, 2.5, 0.2, 0.1))
 x <- rnorm(150)
 y <- rnorm(50, 0.8)
-boxplot(list(x, y),
-  names = c("x", "y"), horizontal = TRUE,
-  col = 2:3, notch = TRUE, varwidth = TRUE
-)
+# boxplot(list(x, y),
+#   names = c("x", "y"), horizontal = TRUE,
+#   col = 2:3, notch = TRUE, varwidth = TRUE
+# )
 data.frame(x, y) %>% 
   gather() %>% 
   ggplot() +
