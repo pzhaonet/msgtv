@@ -1,4 +1,5 @@
 delete_merged_file: true
+output_dir: "docs"
 language:
   label:
     fig: "图 "
@@ -11,21 +12,21 @@ before_chapter_script: ["_common.R"]
 new_session: yes
 rmd_files: 
 - "index.Rmd"
-- "foreword.Rmd"
-- "history.Rmd"
-- "tools.Rmd"
+#- "foreword.Rmd"
+#- "history.Rmd"
+#- "tools.Rmd"
 
-- "elements.Rmd"
+#- "elements.Rmd"
 - "gallery.Rmd"
 
-- "system.Rmd"
-- "data.Rmd"
-- "principle.Rmd"
+#- "system.Rmd"
+#- "data.Rmd"
+#- "principle.Rmd"
 
-- "programming.Rmd"
-- "tricks.Rmd"
-- "gui.Rmd"
-- "msg.Rmd"
-- "postscript.Rmd"
+#- "programming.Rmd"
+#- "tricks.Rmd"
+#- "gui.Rmd"
+#- "msg.Rmd"
+#- "postscript.Rmd"
 
 - "references.Rmd"
