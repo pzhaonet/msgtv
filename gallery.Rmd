@@ -69,6 +69,13 @@ hist(geyser$waiting, main = "(1) freq = TRUE", xlab = "waiting")
 hist(geyser$waiting, freq = FALSE, xlab = "waiting", main = "(2) freq = FALSE")
 hist(geyser$waiting, breaks = 5, density = 10, xlab = "waiting", main = "(3) breaks = 5")
 hist(geyser$waiting, breaks = 40, col = "red", xlab = "waiting", main = "(4) breaks = 40")
+
+p <- geyser %>% ggplot(aes(waiting))
+p1 <- p + geom_histogram()
+p2 <- p + geom_histogram(aes(y = stat(density)))
+p3 <- p + geom_histogram(binwidth = 10)
+p4 <- p + geom_histogram(bins = 40)
+ggarrange(p1, p2, p3, p4, labels = c('(1) freq = TRUE', '(2) freq = FALSE', '(3) binwidth = 10', '(4) bins = 40'))
 ```
 
 我们以黄石国家公园喷泉数据 `geyser` [@Venables02] 为例。图 \@ref(fig:hist-geyser)  展示了喷泉喷发间隔时间的分布情况。（1）和（2）中的直方图看起来形状完全一样，区别仅仅是前者为频数图，后者为密度图。二者在统计量上仅相差一个常数倍，但密度直方图的一个便利之处在于它可以方便地添加密度曲线，用以辅助展示数据的统计分布（图 \@ref(fig:hist-density) 即为一个示例）；（3）和（4）的区别在于区间划分段数，我们可以很清楚看出区间划分的多少对直方图的直接影响。关于区间划分的一些讨论可以参考 @Venables02，这里我们需要特别指出的是，直方图的理论并非想象中或看起来的那么简单，窗宽也并非可以任意选择，不同的窗宽或区间划分方法会导致不同的估计误差。关于这一点，Excel 的直方图可以说是非常不可靠的，因为它把区间的划分方法完全交给了用户去选择，这样随意制作出来的直方图很可能会导致大的估计误差、掩盖数据的真实分布情况。另外一点需要提醒的是关于直方图中的密度曲线，SPSS 软件在绘制直方图时会有选项提示是否添加正态分布密度曲线，这也是完全的误导，因为数据不一定来自正态分布，添加正态分布的密度曲线显然是不合理的，相比之下，图 \@ref(fig:hist-density) 的做法才是真正从数据本来的分布出发得到的密度曲线。
@@ -167,6 +174,11 @@ Range，简称 $\text{IQR}\equiv Q_3-Q_1$）的倍数，超过这个范围的数
 ```{r insects-boxplot, fig.width=4.8, fig.height=1.8, tidy=TRUE, fig.cap="(ref:fig-insects-boxplot)", fig.scap="(ref:fig-insects-boxplot-s)"}
 par(mar = c(2, 2.5, .2, .1))
 boxplot(count ~ spray, data = InsectSprays, col = "lightgray", horizontal = TRUE, pch = 4)
+InsectSprays %>% 
+  ggplot() +
+  geom_boxplot(aes(spray, count)) +
+  coord_flip()
+
 ```
 
 
@@ -198,6 +210,12 @@ boxplot(list(x, y),
   names = c("x", "y"), horizontal = TRUE,
   col = 2:3, notch = TRUE, varwidth = TRUE
 )
+data.frame(x, y) %>% 
+  gather() %>% 
+  ggplot() +
+  geom_boxplot(aes(key, value, fill = key), notch = TRUE) +
+  coord_flip()
+
 wilcox.test(x, y)$p.value # Wilcoxon检验的P值
 ```
 
@@ -1242,6 +1260,7 @@ demo("symbols_all", echo = FALSE, package = "MSG")
 
 
 ```{r ChinaPop-data}
+if (Sys.info()['sysname'] == 'Windows') Sys.setlocale('LC_CTYPE', 'Chinese')
 source(system.file("extdata", "ChinaPop.R", package = "MSG"), encoding = "UTF-8")
 head(ChinaPop)
 ```
