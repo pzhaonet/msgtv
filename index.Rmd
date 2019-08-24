@@ -40,9 +40,7 @@ library(tidyverse)
 
 `r if (knitr::is_latex_output()) '<!--'` 
 
-# 欢迎 {#welcome .unnumbered}
-
-## 版权声明 {#copyright .unnumbered}
+# 版权声明 {#copyright .unnumbered}
 
 本书电子版采用 Creative Commons（简称CC）许可证“署名 --- 非商业性使用 --- 相同方式共享 2.5 中国大陆”，该许可证的全文可以从<http://creativecommons.org/licenses/by-nc-sa/2.5/cn/>获得；一份普通人可以理解的法律文本概要可以从<http://creativecommons.org/licenses/by-nc-sa/2.5/cn/legalcode>获得。
 
@@ -50,11 +48,14 @@ library(tidyverse)
 knitr::include_graphics('images/cc-by-nc-sa.svg')
 ```
 
-作者采用CC许可证的考虑主要有一点：
+作者采用CC许可证的考虑：
 
 本书是在《现代统计图形》第一版基础上修改而来的，而此书采取的是 CC 许可证，所以别无选择。
 
-—— 赵鹏
+
+```{block2, type = 'flushright', html.tag = 'p'}
+赵鹏
+```
 
 # 第一版欢迎 {#welcome1 .unnumbered}
 
@@ -94,6 +95,8 @@ Dai耗费眼神帮我挑选了本书第一例彩蛋（图\@ref(fig:point-random)
 最后，我要感谢我的父母和亲人们在2008年以来每个长假给我提供绝佳的写作环境，让我心无旁骛地写书；感谢吴喜之老师将R这套工具引入中国人民大学统计学院的课堂，以及王星老师在统计计算和非参数统计课堂上对R的介绍，没有他们的努力，我也许不会踏进R的大门；感谢我的硕士导师赵彦云老师在我的本硕学习期间给我的各种指导；感谢“统计之都”网站的会员们在[COS论坛](https://d.cosx.org/)上S-Plus
 \& R版块和我的交流，他们的问题也使我意识到了图形知识的需求；感谢周筠老师和卢鸫翔编辑以及出版团队；感谢本书写作期间所有给我提供过帮助的人们。
 
-—— 谢益辉
+```{block2, type = 'flushright', html.tag = 'p'}
+谢益辉  
+```
 
 `r if (knitr::is_latex_output()) '-->'`
