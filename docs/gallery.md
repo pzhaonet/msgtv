@@ -240,10 +240,10 @@ sort(x <- rpois(80, lambda = 10))
 ```
 
 ```
-##  [1]  2  3  5  6  7  7  7  7  7  7  8  8  8  8  8  8  8  8  8  8  8  8  8
-## [24]  9  9  9  9  9  9  9  9  9  9  9  9 10 10 10 10 10 10 10 10 10 10 10
-## [47] 10 11 11 11 11 11 11 11 11 11 11 11 12 12 12 12 12 12 13 13 13 13 13
-## [70] 13 13 14 14 15 16 16 16 17 19 20
+##  [1]  3  3  5  5  6  6  6  6  6  6  7  7  7  7  7  7  7  7  7  7  7  8  8
+## [24]  8  8  8  8  8  9  9  9  9  9  9  9  9  9  9  9  9  9 10 10 10 10 10
+## [47] 10 10 10 10 10 11 11 11 11 11 11 11 12 12 12 12 12 12 12 12 12 12 13
+## [70] 13 13 13 13 13 13 13 14 14 15 18
 ```
 
 ```r
@@ -254,25 +254,22 @@ stem(x, scale = 2)
 ## 
 ##   The decimal point is at the |
 ## 
-##    2 | 0
-##    3 | 0
+##    3 | 00
 ##    4 | 
-##    5 | 0
-##    6 | 0
-##    7 | 000000
-##    8 | 0000000000000
-##    9 | 000000000000
-##   10 | 000000000000
-##   11 | 00000000000
-##   12 | 000000
-##   13 | 0000000
+##    5 | 00
+##    6 | 000000
+##    7 | 00000000000
+##    8 | 0000000
+##    9 | 0000000000000
+##   10 | 0000000000
+##   11 | 0000000
+##   12 | 0000000000
+##   13 | 00000000
 ##   14 | 00
 ##   15 | 0
-##   16 | 000
-##   17 | 0
-##   18 | 
-##   19 | 0
-##   20 | 0
+##   16 | 
+##   17 | 
+##   18 | 0
 ```
 
 
@@ -307,9 +304,9 @@ usage(graphics:::boxplot.formula)
 ```
 ## ## S3 method for class 'formula'
 ## boxplot(formula, data = NULL, ..., subset, na.action = NULL,
-##     xlab = mklab(y_var = horizontal), ylab = mklab(y_var = !horizontal),
-##     add = FALSE, ann = !add, horizontal = FALSE, drop = FALSE, sep = ".",
-##     lex.order = FALSE)
+##     xlab = paste(names(mf)[-response], collapse = " : "),
+##     ylab = names(mf)[response], add = FALSE, ann = !add, drop = FALSE,
+##     sep = ".", lex.order = FALSE)
 ```
 
 因为 *boxplot()* 是一个泛型函数，所以它可以适应不同的参数类型。目前它支持两种参数类型：公式（ formula ）和数据，后者对我们来说可能更容易理解（给一批数据、作相应的箱线图），而前者在某些情况下更为方便，后面我们会举例说明。参数  x  为一个数值向量或者列表，若为列表则对列表中每一个子对象依次作出箱线图； range  是一个延伸倍数，决定了箱线图的末端（须）延伸到什么位置，这主要是考虑到离群点的原因，在数据中存在离群点的情况下，将箱线图末端直接延伸到最大值和最小值对描述数据分布来说并不合适（图形缺乏稳健性），所以 R 中的箱线图默认只将图形延伸到离箱子两端 $\mathrm{range}\times(Q_3-Q_1)$处，即上下四分位数分别加/减内四分位距（Interquartile
@@ -344,16 +341,16 @@ InsectSprays[sample(nrow(InsectSprays), 10), ]
 
 ```
 ##    count spray
-## 10    20     A
-## 36     4     C
-## 39    12     D
 ## 7     10     A
-## 47     2     D
-## 28     2     C
-## 35     1     C
-## 45     5     D
-## 27     7     C
-## 65    15     F
+## 21    19     B
+## 43     5     D
+## 48     4     D
+## 24    13     B
+## 66    16     F
+## 26     1     C
+## 3     20     A
+## 19    17     B
+## 42     3     D
 ```
 
 为了了解杀虫剂的效果，我们需要对各种杀虫剂下昆虫的数目作出比较。图 \@ref(fig:insects-boxplot) 是一个简单的箱线图展示，不难看出，除了 B 和 D 对应的昆虫数据呈左偏形态外，其它组均有右偏趋势，看起来各组数据的平均水平差异比较明显；另外注意观察图中的两个离群点（以 "$\times$" 表示）。总体看来，C 的效果最好。事实上，我们可以对这个数据作方差分析，检验杀虫剂类型对昆虫数目是否有显著影响：
@@ -405,7 +402,7 @@ wilcox.test(x, y)$p.value # Wilcoxon检验的P值
 ```
 
 ```
-## [1] 1.15823e-06
+## [1] 4.219556e-06
 ```
 
 最后我们再以一个模拟数据的例子展示箱线图凹槽的功能。这里我们分别从正态分布 $\mathrm{N}(0,1)$ 和 $\mathrm{N}(0.5,1)$ 中各自产生 150 和 50 个随机数，然后作箱线图比较两组数据中间位置的差异。图 \@ref(fig:rnorm-boxplot) 为一次模拟的结果，图中的凹槽表明了两组数据的中位数有显著差异，Wilcoxon 秩和检验也证实了这一结论。此外，该图还使用了  varwidth  参数以表明两组数据样本量的大小不同。
@@ -895,12 +892,21 @@ coplot(lat ~ long | depth,
 
 
 ```r
-par(par(mar = c(4.5, 4, 0.2, 0.2)), mfrow = c(2, 1))
+#par(par(mar = c(4.5, 4, 0.2, 0.2)), mfrow = c(2, 1))
+#chippy <- function(x) sin(cos(x) * exp(-x / 2))
+#curve(chippy, -8, 7, n = 2008)
+#curve(sin(x) / x, from = -20, to = 20, n = 200, 
+#      xlab = expression(t), 
+#      ylab = expression(varphi[X](t)))
 chippy <- function(x) sin(cos(x) * exp(-x / 2))
-curve(chippy, -8, 7, n = 2008)
-curve(sin(x) / x, from = -20, to = 20, n = 200, 
-      xlab = expression(t), 
-      ylab = expression(varphi[X](t)))
+x1 <- seq(-8, 7, by = 0.01)
+df1 <- data.frame(x1, y1 <- chippy(x1))
+p1 <- ggplot(df1, aes(x1, y1)) + geom_line()
+x2 <- seq(-20, 20, by = 0.01)
+y2 <- sin(x2)/x2
+df2 <- data.frame(x2, y2)
+p2 <- ggplot(df2, aes(x2, y2)) + geom_line()
+ggarrange(p1, p2, ncol = 1)
 ```
 
 <div class="figure" style="text-align: center">
@@ -939,8 +945,17 @@ usage(curve)
 
 
 ```r
-par(mar = c(4, 4, 0.2, 0.2))
-dotchart(t(VADeaths)[, 5:1], col = brewer.pal(4, "Set1"), pch = 19, cex = .65)
+# par(mar = c(4, 4, 0.2, 0.2))
+# dotchart(t(VADeaths)[, 5:1], col = brewer.pal(4, "Set1"), pch = 19, cex = .65)
+tm <- rownames(VADeaths)
+rownames(VADeaths) <- NULL
+vd <- data.frame(cbind(tm, VADeaths))
+vd <- vd %>% gather(key = "people", value = "rate", 2:5)
+vd$rate <- as.numeric(vd$rate)
+vd$tm <- factor(vd$tm)
+vd$tm <- factor(vd$tm,levels = rev(levels(vd$tm)) )
+ggplot(vd, aes(people, rate, color = people)) + geom_point() + 
+  facet_grid(tm ~ .) + coord_flip() 
 ```
 
 <div class="figure" style="text-align: center">
@@ -1672,9 +1687,10 @@ with(warpbreaks, tapply(breaks, tension, mean))
 
 
 ```r
-par(mar = c(3, 4, 0.4, 0.1))
-plot(density(faithful$eruptions), main = "")
-rug(faithful$eruptions)
+# par(mar = c(3, 4, 0.4, 0.1))
+# plot(density(faithful$eruptions), main = "")
+# rug(faithful$eruptions)
+ggplot(faithful, aes(eruptions)) + geom_line(stat = "density") + geom_rug() + xlim(c(1, 6))
 ```
 
 <div class="figure" style="text-align: center">
@@ -2048,13 +2064,6 @@ demo("symbols_all", echo = FALSE, package = "MSG")
 
 ```r
 if (Sys.info()['sysname'] == 'Windows') Sys.setlocale('LC_CTYPE', 'Chinese')
-```
-
-```
-## [1] "Chinese (Simplified)_China.936"
-```
-
-```r
 source(system.file("extdata", "ChinaPop.R", package = "MSG"), encoding = "UTF-8")
 head(ChinaPop)
 ```
@@ -2504,7 +2513,7 @@ library(vioplot)
 ```
 
 ```
-## 载入需要的程辑包：sm
+## Loading required package: sm
 ```
 
 ```
@@ -2512,12 +2521,12 @@ library(vioplot)
 ```
 
 ```
-## 载入需要的程辑包：zoo
+## Loading required package: zoo
 ```
 
 ```
 ## 
-## 载入程辑包：'zoo'
+## Attaching package: 'zoo'
 ```
 
 ```
@@ -2545,14 +2554,15 @@ f <- function(mu1, mu2)
 x1 <- f(0, 2)
 x2 <- f(2, 3.5)
 x3 <- f(0.5, 2)
-vioplot(x1, x2, x3,
-  horizontal = TRUE, col = "bisque",
-  names = c("A", "B", "C")
-)
-```
-
-```
-## [1] -1.156868  4.908042
+# vioplot(x1, x2, x3,
+#  horizontal = TRUE, col = "bisque",
+#  names = c("A", "B", "C")
+#)
+x <- data.frame(A = x1, B = x2, C = x3)
+x <- x %>% gather(key = "var", value = "num") 
+ggplot(x, aes(var, num)) + geom_violin(fill = "bisque") + geom_boxplot(width = .1) + 
+        theme(axis.title.x=element_blank(), axis.title.y=element_blank()) + 
+        scale_y_continuous(breaks = c(-1, 0, 1, 2, 3, 4, 5)) + coord_flip() 
 ```
 
 <div class="figure" style="text-align: center">
@@ -2603,6 +2613,10 @@ usage(map)
 
 ```r
 demo("AgriComp", package = "MSG")
+```
+
+```
+## Error in map.poly(database, regions, exact, xlim, ylim, boundary, interior, : no recognized region names
 ```
 
 <div class="figure" style="text-align: center">
@@ -2757,7 +2771,7 @@ library(GGally)
 
 ```
 ## 
-## 载入程辑包：'GGally'
+## Attaching package: 'GGally'
 ```
 
 ```
@@ -2931,8 +2945,8 @@ print(rpart(Species ~ ., iris), digits = 2)
 ##       * denotes terminal node
 ## 
 ## 1) root 150 100 setosa (0.333 0.333 0.333)  
-##   2) Petal.Length< 2.4 50   0 setosa (1.000 0.000 0.000) *
-##   3) Petal.Length>=2.4 100  50 versicolor (0.000 0.500 0.500)  
+##   2) Petal.Length< 2.5 50   0 setosa (1.000 0.000 0.000) *
+##   3) Petal.Length>=2.5 100  50 versicolor (0.000 0.500 0.500)  
 ##     6) Petal.Width< 1.8 54   5 versicolor (0.000 0.907 0.093) *
 ##     7) Petal.Width>=1.8 46   1 virginica (0.000 0.022 0.978) *
 ```
@@ -2957,7 +2971,7 @@ library(aplpack)
 
 ```
 ## 
-## 载入程辑包：'aplpack'
+## Attaching package: 'aplpack'
 ```
 
 ```
