@@ -522,6 +522,12 @@ coplot(lat ~ long | depth,
 (ref:fig-curve) 函数 $f(x)=\mathrm{sin}(\mathrm{cos}(x)*\mathrm{exp}(-x/2))$ 的曲线图（上）和均匀分布 $U(-1,1)$ 的特征函数图（下）。
 
 ```{r curve,fig.width=4.8,fig.height=5,fig.cap="(ref:fig-curve)",fig.scap="(ref:fig-curve-s)"}
+#par(par(mar = c(4.5, 4, 0.2, 0.2)), mfrow = c(2, 1))
+#chippy <- function(x) sin(cos(x) * exp(-x / 2))
+#curve(chippy, -8, 7, n = 2008)
+#curve(sin(x) / x, from = -20, to = 20, n = 200, 
+#      xlab = expression(t), 
+#      ylab = expression(varphi[X](t)))
 chippy <- function(x) sin(cos(x) * exp(-x / 2))
 x1 <- seq(-8, 7, by = 0.01)
 df1 <- data.frame(x1, y1 <- chippy(x1))
@@ -557,6 +563,8 @@ usage(curve)
 (ref:fig-dotchart) 弗吉尼亚死亡率数据的 Cleveland 点图
 
 ```{r dotchart,fig.width=4.8,fig.height=2.7,fig.cap="(ref:fig-dotchart)",fig.scap="(ref:fig-dotchart-s)"}
+# par(mar = c(4, 4, 0.2, 0.2))
+# dotchart(t(VADeaths)[, 5:1], col = brewer.pal(4, "Set1"), pch = 19, cex = .65)
 tm <- rownames(VADeaths)
 rownames(VADeaths) <- NULL
 vd <- data.frame(cbind(tm, VADeaths))
@@ -1060,6 +1068,9 @@ with(warpbreaks, tapply(breaks, tension, mean))
 (ref:fig-rug) 带坐标轴须的喷泉间隔时间密度曲线图
 
 ```{r rug,fig.width=4.8,fig.height=2,fig.cap="(ref:fig-rug)",fig.scap="(ref:fig-rug-s)"}
+# par(mar = c(3, 4, 0.4, 0.1))
+# plot(density(faithful$eruptions), main = "")
+# rug(faithful$eruptions)
 ggplot(faithful, aes(eruptions)) + geom_line(stat = "density") + geom_rug() + xlim(c(1, 6))
 ```
 
@@ -1570,10 +1581,14 @@ usage(vioplot)
 
 ```{r vioplot,fig.width=4.8,fig.height=4,fig.cap="(ref:fig-vioplot)",fig.scap="(ref:fig-vioplot-s)"}
 f <- function(mu1, mu2)
-        c(rnorm(300, mu1, 0.5), rnorm(200, mu2, 0.5))
+  c(rnorm(300, mu1, 0.5), rnorm(200, mu2, 0.5))
 x1 <- f(0, 2)
 x2 <- f(2, 3.5)
 x3 <- f(0.5, 2)
+# vioplot(x1, x2, x3,
+#  horizontal = TRUE, col = "bisque",
+#  names = c("A", "B", "C")
+#)
 x <- data.frame(A = x1, B = x2, C = x3)
 x <- x %>% gather(key = "var", value = "num") 
 ggplot(x, aes(var, num)) + geom_violin(fill = "bisque") + geom_boxplot(width = .1) + 
