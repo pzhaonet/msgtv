@@ -12,7 +12,7 @@ before_chapter_script: ["_common.R"]
 new_session: yes
 rmd_files: 
 - "index.Rmd"
-#- "foreword.Rmd"
+- "foreword.Rmd"
 #- "history.Rmd"
 #- "tools.Rmd"
 
