@@ -570,9 +570,10 @@ rownames(VADeaths) <- NULL
 vd <- data.frame(cbind(tm, VADeaths))
 vd <- vd %>% gather(key = "people", value = "rate", 2:5)
 vd$rate <- as.numeric(vd$rate)
+vd$tm <- factor(vd$tm)
 vd$tm <- factor(vd$tm,levels = rev(levels(vd$tm)) )
 ggplot(vd, aes(people, rate, color = people)) + geom_point() + 
-        facet_grid(tm~.) + coord_flip()  
+  facet_grid(tm ~ .) + coord_flip() 
 ```
 
 R中点图的函数为*dotchart()*，用法如下：
