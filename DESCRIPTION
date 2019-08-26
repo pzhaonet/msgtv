@@ -2,5 +2,41 @@ Package: placeholder
 Type: Book
 Title: Does not matter.
 Version: 0.0.1
-Imports: bookdown, tidyverse, maps, mapproj, ggpubr, formatR, showtext
+Imports: 
+  alphahull,
+  animation, 
+  aplpack, 
+  bookdown,
+  corrplot, 
+  cowplot, 
+  formatR,
+  fun,
+  GGally, 
+  ggplot2, 
+  ggpubr, 
+  igraph, 
+  latex2exp,
+  magick, 
+  mapproj, 
+  maps, 
+  maptools, 
+  MSG, 
+  mvtnorm,
+  pdftools, 
+  plot3D, 
+  plotrix,
+  randomForest, 
+  rgeos, 
+  rggobi, 
+  rgl,
+  scatterplot3d, 
+  showtext, 
+  sna, 
+  sp, 
+  svglite,
+  TeachingDemos, 
+  tikzDevice, 
+  tidyverse, 
+  vcd, 
+  vioplot
 Remotes: rstudio/bookdown
