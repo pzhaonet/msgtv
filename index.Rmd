@@ -18,23 +18,23 @@ url: 'https\://pzhaonet.github.io/msgtv/'
 
 ```{r setup,include=FALSE}
 # 安装本书需要的 R 包，按字母排序
-r = getOption("repos")
-r["CRAN"] = "http://cran.r-project.org"
-options(repos = r)
-
-lapply(c(
-  "alphahull", "animation", "aplpack", "bookdown",
-  "corrplot", "cowplot", "formatR", "fun",
-  "GGally", "ggplot2", "igraph", "latex2exp",
-  "magick", "maps", "maptools", "MSG", "mvtnorm",
-  "pdftools", "plot3D", "plotrix",
-  "randomForest", "rgeos", "rggobi", "rgl",
-  "scatterplot3d", "showtext", "sna", "sp", "svglite",
-  "TeachingDemos", "tikzDevice", "vcd", "vioplot"
-), function(pkg) {
-  if (system.file(package = pkg) == "") install.packages(pkg)
-})
-if (Sys.info()['sysname'] == 'Windows') Sys.setlocale('LC_CTYPE', 'Chinese')
+# r = getOption("repos")
+# r["CRAN"] = "http://cran.r-project.org"
+# options(repos = r)
+# 
+# lapply(c(
+#   "alphahull", "animation", "aplpack", "bookdown",
+#   "corrplot", "cowplot", "formatR", "fun",
+#   "GGally", "ggplot2", "igraph", "latex2exp",
+#   "magick", "maps", "maptools", "MSG", "mvtnorm",
+#   "pdftools", "plot3D", "plotrix",
+#   "randomForest", "rgeos", "rggobi", "rgl",
+#   "scatterplot3d", "showtext", "sna", "sp", "svglite",
+#   "TeachingDemos", "tikzDevice", "vcd", "vioplot"
+# ), function(pkg) {
+#   if (system.file(package = pkg) == "") install.packages(pkg)
+# })
+# if (Sys.info()['sysname'] == 'Windows') Sys.setlocale('LC_CTYPE', 'Chinese')
 library(tidyverse)
 ```
 
