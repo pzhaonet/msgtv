@@ -175,7 +175,7 @@ theme_set(old) # 恢复原来的主题设定
 经过这些“图层”的分解与抽象，ggplot2 系统中的图形可以像一个魔方一样任意组合，这也是一种重要的编程思想---让对象可重用。例如我们可以创建一个散点图的图层，然后加上平滑层，或者加上切片层，这些“相加”的操作都不需要重新写创建散点图图层的代码，大大减轻了代码量。
 
 ```{r ggplot2-layers}
-p <- qplot(hp, mpg, data = mtcars) # 散点图的图层
+p <- ggplot(mtcars, aes(hp, mpg)) + geom_point() # 散点图的图层
 p + geom_smooth() # 用散点图加上平滑层并打印出来
 p + facet_grid(~am) # 用自动档和手动挡将散点图切片并打印
 p + geom_density2d() # 散点图上加上二维核密度估计层
