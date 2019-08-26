@@ -1,5 +1,8 @@
 现代统计图形之极乐净土 Modern Statistical Graphics with Tidyverse
 
+[![Build Status](https://travis-ci.org/pzhaonet/msgtv.svg?branch=master)](https://travis-ci.org/pzhaonet/msgtv)
+
+
 预览网址：<https://pzhaonet.github.io/msgtv/>
 
 缘起：<https://d.cosx.org/d/420857/5>
