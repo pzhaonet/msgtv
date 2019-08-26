@@ -9,9 +9,18 @@ addons:
       - sourceline: 'ppa:opencpu/imagemagick'
     packages:
       - libmagick++-dev
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
+    packages:
+      - libmagick++-dev
       
 before_install:
   - sudo apt-get install gtk2.0
+  - sudo add-apt-repository -y ppa:opencpu/poppler
+  - sudo apt-get update
+  - sudo sudo apt-get install -y libpoppler-cpp-dev
   
 #before_script:
 #  - chmod +x ./_build.sh
