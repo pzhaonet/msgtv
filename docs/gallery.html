@@ -210,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>他解释说：“你要明白，我认为人的大脑原本像一间空空的屋子，必须有选择地用一些家具填满它。只有笨蛋才把他碰到的各种各样的破烂都塞进去。这样的话，那些可能用得上的知识就被挤了出来；或者，充其量也只是把那些破烂同其它东西混杂在一块儿。结果，在需要时却难得找到了。因此，一个善于工作的人，对于将什么东西纳入自己的头脑里是非常仔细的。他只会容纳那些工作时用得着的工具，而且又将这些工具分门别类，安排得井然有序。如果认为这间屋子的墙壁富有弹性，可以随意扩展，那就大错特错了。毫无疑问，总有一天，当你增加点滴知识时，却把从前熟悉的知识给忘记了。因此，不要让无用的信息挤掉那些有用的信息，这一点是至关重要的。”</p>
 <p>— 柯南<span class="math inline">\(\cdot\)</span> 道尔《血字的研究》</p>
 </blockquote>
-<p>本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 <a href="gallery.html#sec:hist">1.1</a> 节到 <a href="gallery.html#sec:pie">1.27</a> 节的所有图形都是基于 <strong>graphics</strong> 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。</p>
+<p>本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 <a href="gallery.html#sec:hist">1.1</a> 节到 <a href="gallery.html#sec:pie">1.27</a> 节的所有图形都是基于 <strong>graphics</strong> 包和 <strong>ggplot2</strong> 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。</p>
 <div id="sec:hist" class="section level2">
 <h2><span class="header-section-number">1.1</span> 直方图</h2>
 <p>直方图（Histogram）是展示连续数据分布最常用的工具，它本质上是对密度函数的一种估计。在介绍作图方法之前我们有必要先了解一下它的基本数学思想，本节仅作简要介绍，
@@ -625,7 +625,7 @@ Line）表面上看起来是二维形式，但实际上展示的是三维数据�
 
 
 <div class="figure" style="text-align: center"><span id="fig:contour-grid"></span>
-<img src="gallery_files/figure-html/contour-grid-1.svg" alt="网格数据的示意图：体会 x、y 与 z 的对应关系" width="460.8" />
+<img src="gallery_files/figure-html/contour-grid-1.svg" alt="网格数据的示意图：体会 x、y 与 z 的对应关系" width="50%" /><img src="gallery_files/figure-html/contour-grid-2.svg" alt="网格数据的示意图：体会 x、y 与 z 的对应关系" width="50%" />
 <p class="caption">
 图 1.9: 网格数据的示意图：体会 x、y 与 z 的对应关系
 </p>

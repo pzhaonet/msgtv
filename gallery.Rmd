@@ -10,7 +10,7 @@ library(ggpubr)
 ```
 
 
-本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 \@ref(sec:hist) 节到 \@ref(sec:pie) 节的所有图形都是基于 **graphics** 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。
+本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 \@ref(sec:hist) 节到 \@ref(sec:pie) 节的所有图形都是基于 **graphics** 包和 **ggplot2** 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。
 
 ## 直方图 {#sec:hist}
 
@@ -396,7 +396,7 @@ Line）表面上看起来是二维形式，但实际上展示的是三维数据�
 (ref:fig-contour-grid) 网格数据的示意图：体会 x、y 与 z 的对应关系
 
 
-```{r contour-grid,fig.width=4.8,fig.height=2.5,echo=FALSE,fig.cap="(ref:fig-contour-grid)",fig.scap="(ref:fig-contour-grid-s)"}
+```{r contour-grid,fig.width=4.8,fig.height=2.5,echo=FALSE,fig.cap="(ref:fig-contour-grid)",fig.scap="(ref:fig-contour-grid-s)", fig.show = 'hold', out.width='50%'}
 par(mar = c(2.5, 3, 0.1, 0.1), mgp = c(1.5, .5, 0))
 x <- 1:4
 y <- 1:3
@@ -414,6 +414,18 @@ segments(2, 2, 3, 2)
 text(rep(x, 3), rep(y, each = 4), paste("z =", z), cex = 1.5)
 axis(1, 1:4, paste("x =", x))
 axis(2, 1:3, paste("y =", y))
+
+ggplot() +
+  geom_polygon(aes(x, y), fill = NA,  colour="black", linetype = 2, 
+               data = data.frame(x = c(1, 2, 3, 4, 3, 2), 
+                                 y = c(2, 1, 1, 2, 3, 3))) +
+  geom_segment(aes(x = 2, y = 2, xend = 3, yend = 2)) + 
+  geom_text(aes(x, y, label = z), 
+            data = data.frame(x = rep(1:4, 3), 
+                              y = rep(1:3, each = 4), 
+                              z = paste("z =", z)),
+            color = 'blue')
+
 ```
 
 

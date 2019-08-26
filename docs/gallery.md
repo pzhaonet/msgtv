@@ -8,7 +8,7 @@
 
 
 
-本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 \@ref(sec:hist) 节到 \@ref(sec:pie) 节的所有图形都是基于 **graphics** 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。
+本章中，我们结合 R 语言中的相关函数以及数据实例对各种统计图形依次作出介绍。从第 \@ref(sec:hist) 节到 \@ref(sec:pie) 节的所有图形都是基于 **graphics** 包和 **ggplot2** 包所作，其后的图形均来自于其它函数包。图形的介绍顺序大致按函数的字母序，但直方图、箱线图和散点图等常见图形放在前面，而饼图被有意安排在最后。
 
 ## 直方图 {#sec:hist}
 
@@ -697,7 +697,7 @@ Line）表面上看起来是二维形式，但实际上展示的是三维数据�
 
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/contour-grid-1.svg" alt="(ref:fig-contour-grid)" width="460.8" />
+<img src="gallery_files/figure-html/contour-grid-1.svg" alt="(ref:fig-contour-grid)" width="50%" /><img src="gallery_files/figure-html/contour-grid-2.svg" alt="(ref:fig-contour-grid)" width="50%" />
 <p class="caption">(\#fig:contour-grid)(ref:fig-contour-grid)</p>
 </div>
 
