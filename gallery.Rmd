@@ -67,14 +67,14 @@ usage(hist.default)
 (ref:fig-hist-geyser) 喷泉间隔时间直方图：（1）使用默认参数值（作频数图）；（2）概率密度直方图；（3）减小区间段数，直方图看起来更平滑（偏差大，方差小）；（4）增大区间段数，直方图更突兀（偏差小，方差大）
 
 
-```{r hist-geyser,fig.width=4.8, fig.height=4, fig.cap="(ref:fig-hist-geyser)", fig.scap='(ref:fig-hist-geyser-s)'}
+```{r hist-geyser,fig.width=4.8, fig.height=4, fig.cap="(ref:fig-hist-geyser)", fig.scap='(ref:fig-hist-geyser-s)', fig.show = 'hold', out.width='50%'}
 data(geyser, package = "MASS")
 
-# par(mfrow = c(2, 2), mar = c(2, 3, 2, .5), mgp = c(2, .5, 0))
-# hist(geyser$waiting, main = "(1) freq = TRUE", xlab = "waiting")
-# hist(geyser$waiting, freq = FALSE, xlab = "waiting", main = "(2) freq = FALSE")
-# hist(geyser$waiting, breaks = 5, density = 10, xlab = "waiting", main = "(3) breaks = 5")
-# hist(geyser$waiting, breaks = 40, col = "red", xlab = "waiting", main = "(4) breaks = 40")
+par(mfrow = c(2, 2), mar = c(2, 3, 2, .5), mgp = c(2, .5, 0))
+hist(geyser$waiting, main = "(1) freq = TRUE", xlab = "waiting")
+hist(geyser$waiting, freq = FALSE, xlab = "waiting", main = "(2) freq = FALSE")
+hist(geyser$waiting, breaks = 5, density = 10, xlab = "waiting", main = "(3) breaks = 5")
+hist(geyser$waiting, breaks = 40, col = "red", xlab = "waiting", main = "(4) breaks = 40")
 
 p <- geyser %>% ggplot(aes(waiting))
 p1 <- p + geom_histogram()
@@ -91,8 +91,8 @@ ggarrange(p1, p2, p3, p4, labels = c('(1) freq = TRUE', '(2) freq = FALSE', '(3)
 
 (ref:fig-hist-density) 直方图与密度曲线的结合：借助函数 *density()* 可以计算出数据的核密度估计，然后利用低层作图函数 *lines()* 将核密度估计曲线添加到直方图中。
 
-```{r hist-density,fig.width=3.5, fig.height=2, results='hide', tidy=TRUE, fig.cap='(ref:fig-hist-density)', fig.scap='(ref:fig-hist-density-s)'}
-# demo("hist_geyser", package = "MSG")
+```{r hist-density,fig.width=3.5, fig.height=2, results='hide', tidy=TRUE, fig.cap='(ref:fig-hist-density)', fig.scap='(ref:fig-hist-density-s)', fig.show = 'hold', out.width='50%'}
+demo("hist_geyser", package = "MSG")
 p2 + geom_density()
 ```
 
@@ -178,9 +178,9 @@ Range，简称 $\text{IQR}\equiv Q_3-Q_1$）的倍数，超过这个范围的数
 
 (ref:fig-insects-boxplot) 昆虫数目箱线图：六种杀虫剂下昆虫的数目分布。
 
-```{r insects-boxplot, fig.width=4.8, fig.height=1.8, tidy=TRUE, fig.cap="(ref:fig-insects-boxplot)", fig.scap="(ref:fig-insects-boxplot-s)"}
-# par(mar = c(2, 2.5, .2, .1))
-# boxplot(count ~ spray, data = InsectSprays, col = "lightgray", horizontal = TRUE, pch = 4)
+```{r insects-boxplot, fig.width=4.8, fig.height=1.8, tidy=TRUE, fig.cap="(ref:fig-insects-boxplot)", fig.scap="(ref:fig-insects-boxplot-s)", fig.show = 'hold', out.width='50%'}
+par(mar = c(2, 2.5, .2, .1))
+boxplot(count ~ spray, data = InsectSprays, col = "lightgray", horizontal = TRUE, pch = 4)
 
 InsectSprays %>% 
   ggplot() +
@@ -210,14 +210,14 @@ summary(insects.aov)
 
 (ref:fig-rnorm-boxplot) 箱线图的凹槽与统计推断：从凹槽不交叠的情况来看，两样本中位数有显著差异。
 
-```{r rnorm-boxplot,fig.width=4.8,fig.height=1.2, tidy=FALSE, fig.cap="(ref:fig-rnorm-boxplot)", fig.scap="(ref:fig-rnorm-boxplot-s)"}
+```{r rnorm-boxplot,fig.width=4.8,fig.height=1.2, tidy=FALSE, fig.cap="(ref:fig-rnorm-boxplot)", fig.scap="(ref:fig-rnorm-boxplot-s)", fig.show = 'hold', out.width='50%'}
 par(mar = c(2, 2.5, 0.2, 0.1))
 x <- rnorm(150)
 y <- rnorm(50, 0.8)
-# boxplot(list(x, y),
-#   names = c("x", "y"), horizontal = TRUE,
-#   col = 2:3, notch = TRUE, varwidth = TRUE
-# )
+boxplot(list(x, y),
+  names = c("x", "y"), horizontal = TRUE,
+  col = 2:3, notch = TRUE, varwidth = TRUE
+)
 data.frame(x, y) %>% 
   gather() %>% 
   ggplot() +
@@ -235,22 +235,21 @@ wilcox.test(x, y)$p.value # Wilcoxon检验的P值
 
 (ref:fig-vadeaths-barplot) 弗吉尼亚死亡率数据条形图： 堆砌和并列的条形图效果
 
-```{r vadeaths-barplot, fig.width=4.8, fig.height=4.8, fig.cap = "(ref:fig-vadeaths-barplot)", fig.scap="(ref:fig-vadeaths-barplot-s)"}
-# library(RColorBrewer) # 用分类调色板
-# par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
-# death <- t(VADeaths)[, 5:1]
-# 
-# barplot(death, col = brewer.pal(4, "Set1"))
-# barplot(death,
-#   col = brewer.pal(4, "Set1"), beside = TRUE,
-#   legend.text = TRUE
-# )
+```{r vadeaths-barplot, fig.width=4.8, fig.height=4.8, fig.cap = "(ref:fig-vadeaths-barplot)", fig.scap="(ref:fig-vadeaths-barplot-s)", fig.show = 'hold', out.width='50%', dev= "png"}
+library(RColorBrewer) # 用分类调色板
+par(mfrow = c(2, 1), mar = c(3, 2.5, 0.5, 0.1))
+death <- t(VADeaths)[, 5:1]
+barplot(death, col = brewer.pal(4, "Set1"))
+barplot(death,
+  col = brewer.pal(4, "Set1"), beside = TRUE,
+  legend.text = TRUE
+)
 
-pd <- VADeaths %>% 
-  as.data.frame() %>% 
-  mutate(age = rownames(.)) %>% 
-  gather(key = 'key', value = 'value', -age) %>% 
-  mutate(age = rev(factor(age))) %>% 
+pd <- VADeaths %>%
+  as.data.frame() %>%
+  mutate(age = rownames(.)) %>%
+  gather(key = 'key', value = 'value', -age) %>%
+  mutate(age = rev(factor(age))) %>%
   ggplot()
 pd1 <- pd + geom_bar(aes(x = age, y = value, fill = key), stat = 'identity')
 pd2 <- pd + geom_bar(aes(x = age, y = value, fill = key, ), stat = 'identity', position = 'dodge')
@@ -521,13 +520,14 @@ coplot(lat ~ long | depth,
 
 (ref:fig-curve) 函数 $f(x)=\mathrm{sin}(\mathrm{cos}(x)*\mathrm{exp}(-x/2))$ 的曲线图（上）和均匀分布 $U(-1,1)$ 的特征函数图（下）。
 
-```{r curve,fig.width=4.8,fig.height=5,fig.cap="(ref:fig-curve)",fig.scap="(ref:fig-curve-s)"}
-#par(par(mar = c(4.5, 4, 0.2, 0.2)), mfrow = c(2, 1))
-#chippy <- function(x) sin(cos(x) * exp(-x / 2))
-#curve(chippy, -8, 7, n = 2008)
-#curve(sin(x) / x, from = -20, to = 20, n = 200, 
-#      xlab = expression(t), 
-#      ylab = expression(varphi[X](t)))
+```{r curve,fig.width=4.8,fig.height=5,fig.cap="(ref:fig-curve)",fig.scap="(ref:fig-curve-s)", fig.show = 'hold', out.width='50%'}
+par(par(mar = c(4.5, 4, 0.2, 0.2)), mfrow = c(2, 1))
+chippy <- function(x) sin(cos(x) * exp(-x / 2))
+curve(chippy, -8, 7, n = 2008)
+curve(sin(x) / x, from = -20, to = 20, n = 200,
+     xlab = expression(t),
+     ylab = expression(varphi[X](t)))
+
 chippy <- function(x) sin(cos(x) * exp(-x / 2))
 x1 <- seq(-8, 7, by = 0.01)
 df1 <- data.frame(x1, y1 <- chippy(x1))
@@ -562,9 +562,10 @@ usage(curve)
 
 (ref:fig-dotchart) 弗吉尼亚死亡率数据的 Cleveland 点图
 
-```{r dotchart,fig.width=4.8,fig.height=2.7,fig.cap="(ref:fig-dotchart)",fig.scap="(ref:fig-dotchart-s)"}
-# par(mar = c(4, 4, 0.2, 0.2))
-# dotchart(t(VADeaths)[, 5:1], col = brewer.pal(4, "Set1"), pch = 19, cex = .65)
+```{r dotchart,fig.width=4.8,fig.height=2.7,fig.cap="(ref:fig-dotchart)",fig.scap="(ref:fig-dotchart-s)", fig.show = 'hold', out.width='50%'}
+par(mar = c(4, 4, 0.2, 0.2))
+dotchart(t(VADeaths)[, 5:1], col = brewer.pal(4, "Set1"), pch = 19, cex = .65)
+
 tm <- rownames(VADeaths)
 rownames(VADeaths) <- NULL
 vd <- data.frame(cbind(tm, VADeaths))
@@ -1068,10 +1069,11 @@ with(warpbreaks, tapply(breaks, tension, mean))
 
 (ref:fig-rug) 带坐标轴须的喷泉间隔时间密度曲线图
 
-```{r rug,fig.width=4.8,fig.height=2,fig.cap="(ref:fig-rug)",fig.scap="(ref:fig-rug-s)"}
-# par(mar = c(3, 4, 0.4, 0.1))
-# plot(density(faithful$eruptions), main = "")
-# rug(faithful$eruptions)
+```{r rug,fig.width=4.8,fig.height=2,fig.cap="(ref:fig-rug)",fig.scap="(ref:fig-rug-s)", fig.show = 'hold', out.width='50%'}
+par(mar = c(3, 4, 0.4, 0.1))
+plot(density(faithful$eruptions), main = "")
+rug(faithful$eruptions)
+
 ggplot(faithful, aes(eruptions)) + geom_line(stat = "density") + geom_rug() + xlim(c(1, 6))
 ```
 
@@ -1580,16 +1582,17 @@ usage(vioplot)
 
 (ref:fig-vioplot) 三组双峰数据的小提琴图比较
 
-```{r vioplot,fig.width=4.8,fig.height=4,fig.cap="(ref:fig-vioplot)",fig.scap="(ref:fig-vioplot-s)"}
+```{r vioplot,fig.width=4.8,fig.height=4,fig.cap="(ref:fig-vioplot)",fig.scap="(ref:fig-vioplot-s)", fig.show = 'hold', out.width='50%'}
 f <- function(mu1, mu2)
   c(rnorm(300, mu1, 0.5), rnorm(200, mu2, 0.5))
 x1 <- f(0, 2)
 x2 <- f(2, 3.5)
 x3 <- f(0.5, 2)
-# vioplot(x1, x2, x3,
-#  horizontal = TRUE, col = "bisque",
-#  names = c("A", "B", "C")
-#)
+vioplot(x1, x2, x3,
+ horizontal = TRUE, col = "bisque",
+ names = c("A", "B", "C")
+)
+
 x <- data.frame(A = x1, B = x2, C = x3)
 x <- x %>% gather(key = "var", value = "num") 
 ggplot(x, aes(var, num)) + geom_violin(fill = "bisque") + geom_boxplot(width = .1) + 
