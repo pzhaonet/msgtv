@@ -1,45 +1,37 @@
 language: r
-dist: xenial
-services:
-  - docker
-cache:
-  packages: true
-  directories:
-    - _bookdown_files
-    - $HOME/.npm
-    
-latex: false
-pandoc: false
+cache: packages
+# pandoc_version: 1.19.2.1
 
-env:
-  global:
-    - MAKEFLAGS="-j 2"
-    - R_VERSION=3.6.1
-    - DISPLAY=:99.0
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
+    packages:
+      - libmagick++-dev
 
-before_install:
-  # install stable node
-  - nvm install stable  
-  - npm install netlify-cli -g
-  # deploy with messages 
-  - export COMMIT_MSG=$(git log -1 --format='%h %<(50,trunc)%s')
-  - echo $COMMIT_MSG
-  - export DEPLOY_MSG=${COMMIT_MSG//[\'\"\`]/}
-  - echo $DEPLOY_MSG
-
-before_script:
-  # packages in docker images
-  - docker pull xiangyunhuang/msg-book
-  - docker run --rm -it --name=book xiangyunhuang/msg-book Rscript -e "sessionInfo(.packages(T))"
+#before_script:
+#  - chmod +x ./_build.sh
+#  - chmod +x ./_deploy_to_staging.sh
 
 script:
-  - mkdir -p _book/interactives && cp -r interactives/* _book/interactives
-  - docker-compose run book bash -c "sh ./_build.sh"
-  - docker-compose down
+  - bash scripts/_build.sh
+
+#after_success:
+#  - bash scripts/_deploy_to_staging.sh
+
+branches:
+  only:
+    - master
 
 deploy:
-  provider: script
-  script: netlify deploy --prod --dir _book --message "$DEPLOY_MSG"
   skip_cleanup: true
+  provider: script
+  script: bash scripts/_deploy_to_production.sh
   on:
     branch: master
+
+cache:
+  packages: yes
+  directories:
+    - $TRAVIS_BUILD_DIR/_bookdown_files

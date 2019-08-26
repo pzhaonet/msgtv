@@ -1,7 +1,6 @@
 Package: placeholder
 Type: Book
-Title: placeholder.
-Version: 0.0.0.999999
-Depends: R (>= 3.6.0)
-Imports: remotes
-BugReports: https://github.com/XiangyunHuang/MSG-Book/issues
+Title: Does not matter.
+Version: 0.0.1
+Imports: bookdown, tidyverse, maps, mapproj, ggpubr
+Remotes: rstudio/bookdown
