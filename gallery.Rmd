@@ -296,7 +296,6 @@ pd <- VADeaths %>%
   as.data.frame() %>%
   mutate(age = rownames(.)) %>%
   gather(key = 'key', value = 'value', -age) %>%
-  mutate(age = rev(factor(age))) %>%
   ggplot()
 pd1 <- pd + geom_bar(aes(x = age, y = value, fill = key), stat = 'identity')
 pd2 <- pd + geom_bar(aes(x = age, y = value, fill = key, ), stat = 'identity', position = 'dodge')
@@ -372,10 +371,15 @@ coef(summary(lm(V2 ~ V1, BinormCircle)))
 
 (ref:fig-assocplot) 眼睛颜色与头发颜色的关联图
 
-```{r assocplot,fig.width=4.8,fig.height=4, fig.cap="(ref:fig-assocplot)", fig.scap= "(ref:fig-assocplot-s)"}
+```{r assocplot,fig.width=4.8,fig.height=4, fig.cap="(ref:fig-assocplot)", fig.scap= "(ref:fig-assocplot-s)", fig.show = 'hold', out.width='50%', dev= "png"}
 (x <- margin.table(HairEyeColor, c(1, 2)))
 assocplot(x)
 chisq.test(x)$p.value # 卡方检验P值
+
+reshape2::melt(unclass(chisq.test(x)$res), value.name = "residuals") %>% 
+  ggplot(aes(x = Hair, y = Eye)) +
+    geom_tile(aes(fill = residuals)) +
+    scale_fill_gradient2()
 ```
 
 关联图（Cohen-Friendly Association
