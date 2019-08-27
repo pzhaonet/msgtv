@@ -1,3 +1,50 @@
+```{r include=FALSE, cache=FALSE}
+# convert pdf to png
+to_png <- function(fig_path) {
+  png_path <- sub("\\.pdf$", ".png", fig_path)
+  magick::image_write(magick::image_read_pdf(fig_path), format = "png", path = png_path)
+  return(png_path)
+}
+
+library(formatR)
+
+is_latex <- identical(knitr::opts_knit$get("rmarkdown.pandoc.to"), "latex")
+is_html <- identical(knitr::opts_knit$get("rmarkdown.pandoc.to"), "html")
+
+knitr::knit_hooks$set(
+  optipng = knitr::hook_optipng,
+  pdfcrop = knitr::hook_pdfcrop,
+  small.mar = function(before, options, envir) {
+    if (before) par(mar = c(4, 4, .1, .1), cex.lab = .95, cex.axis = .9, mgp = c(2, .7, 0), tcl = -.3) # smaller margin on top and right
+  },
+  font.cn = function(before, options, envir) {
+    if (before) pdf.options(family = "GB1")
+  },
+  font.en = function(before, options, envir) {
+    if (before) pdf.options(family = "Times")
+  }
+)
+
+knitr::opts_chunk$set(
+  fig.align = "center",
+  cache = TRUE,
+  small.mar = TRUE,
+  fig.showtext = TRUE
+)
+
+if (is_latex) {
+  knitr::opts_chunk$set(
+    out.width = "70%"
+  )
+}
+
+# https://github.com/XiangyunHuang/MSG-Book/issues/28#issuecomment-522854017
+knitr::knit_hooks$set(dev = function(before, options) {
+  if (options$dev != 'tikz') return()
+  options(device = if (before) tikzDevice::tikz else grDevices::pdf)
+  NULL
+})
+```
 # 图库 {#cha:gallery}
 
 > 他解释说："你要明白，我认为人的大脑原本像一间空空的屋子，必须有选择地用一些家具填满它。只有笨蛋才把他碰到的各种各样的破烂都塞进去。这样的话，那些可能用得上的知识就被挤了出来；或者，充其量也只是把那些破烂同其它东西混杂在一块儿。结果，在需要时却难得找到了。因此，一个善于工作的人，对于将什么东西纳入自己的头脑里是非常仔细的。他只会容纳那些工作时用得着的工具，而且又将这些工具分门别类，安排得井然有序。如果认为这间屋子的墙壁富有弹性，可以随意扩展，那就大错特错了。毫无疑问，总有一天，当你增加点滴知识时，却把从前熟悉的知识给忘记了。因此，不要让无用的信息挤掉那些有用的信息，这一点是至关重要的。"
@@ -434,7 +481,8 @@ ggplot() +
             data = data.frame(x = rep(1:4, 3), 
                               y = rep(1:3, each = 4), 
                               z = paste("z =", z)),
-            color = 'blue')
+            color = 'blue') +
+  xlim(0, 5) + ylim(0, 4)
 
 ```
 
@@ -462,9 +510,19 @@ usage(contourLines)
 (ref:fig-contour-pop) 2005 年中国 31 地区国民预期寿命和高学历人数密度等高图
 
 
-```{r contour-pop,fig.width=4,fig.height=3,results="hide",fig.cap="(ref:fig-contour-pop)",fig.scap="(ref:fig-contour-pop-s)",fig.showtext=TRUE}
+```{r contour-pop,fig.width=4,fig.height=3,results="hide",fig.cap="(ref:fig-contour-pop)",fig.scap="(ref:fig-contour-pop-s)", fig.show = 'hold', out.width='50%'}
 par(mar = c(4, 4, 0.2, 0.2))
-demo("contourPop", package = "MSG")
+demo("contourPop", package = "MSG", echo = T)
+
+data.frame(x = est$x1, 
+           y = rep(est$x2, each = length(est$x1)), 
+           z = as.vector(est$fhat)) %>% 
+  ggplot() +
+  geom_contour(aes(x = x,y = y,z=z)) + 
+  geom_point(aes(Life.Expectancy, High.Edu.NO), data = x) +
+  labs(x = "\u9884\u671F\u5BFF\u547D", 
+       y = "\u9AD8\u5B66\u5386\u4EBA\u6570")
+
 ```
 
 图 \@ref(fig:contour-pop)
