@@ -431,7 +431,6 @@ pd <- VADeaths %>%
   as.data.frame() %>%
   mutate(age = rownames(.)) %>%
   gather(key = 'key', value = 'value', -age) %>%
-  mutate(age = rev(factor(age))) %>%
   ggplot()
 pd1 <- pd + geom_bar(aes(x = age, y = value, fill = key), stat = 'identity')
 pd2 <- pd + geom_bar(aes(x = age, y = value, fill = key, ), stat = 'identity', position = 'dodge')
@@ -585,20 +584,24 @@ coef(summary(lm(V2 ~ V1, BinormCircle)))
 
 ```r
 assocplot(x)
-```
-
-<div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/assocplot-1.svg" alt="(ref:fig-assocplot)" width="460.8" />
-<p class="caption">(\#fig:assocplot)(ref:fig-assocplot)</p>
-</div>
-
-```r
 chisq.test(x)$p.value # 卡方检验P值
 ```
 
 ```
 ## [1] 2.325287e-25
 ```
+
+```r
+reshape2::melt(unclass(chisq.test(x)$res), value.name = "residuals") %>% 
+  ggplot(aes(x = Hair, y = Eye)) +
+    geom_tile(aes(fill = residuals)) +
+    scale_fill_gradient2()
+```
+
+<div class="figure" style="text-align: center">
+<img src="gallery_files/figure-html/assocplot-1.png" alt="(ref:fig-assocplot)" width="50%" /><img src="gallery_files/figure-html/assocplot-2.png" alt="(ref:fig-assocplot)" width="50%" />
+<p class="caption">(\#fig:assocplot)(ref:fig-assocplot)</p>
+</div>
 
 关联图（Cohen-Friendly Association
 Plot）是展示二维列联表数据的一种工具[@Cohen80; @Friendly92]，它主要是基于列联表的独立性检验理论（Pearson
@@ -684,10 +687,20 @@ usage(graphics:::cdplot.formula)
 
 ```r
 demo("cdplotDemo", package = "MSG")
+
+data.frame(fail = factor(c(2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 1,2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1), 
+              levels = 2:1,
+              labels = c("yes", "no")),
+           temperature = c(53, 57, 58, 63, 66, 67, 67, 67, 68,69, 70, 70, 70, 70, 72, 73, 75, 75, 76, 76, 78, 79, 81)
+) %>% 
+  ggplot(aes(temperature, ..count.., fill = fail)) +
+  geom_density(position = "fill") +
+  theme_bw() +
+  geom_point(aes(temperature, c(0.75, 0.25)[as.integer(fail)]))
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/cdplot-1.svg" alt="(ref:fig-cdplot)" width="384" />
+<img src="gallery_files/figure-html/cdplot-1.png" alt="(ref:fig-cdplot)" width="50%" /><img src="gallery_files/figure-html/cdplot-2.png" alt="(ref:fig-cdplot)" width="50%" />
 <p class="caption">(\#fig:cdplot)(ref:fig-cdplot)</p>
 </div>
 
@@ -862,20 +875,6 @@ co.intervals(1:10, number = 5, overlap = 0.5)
 ```r
 par(mar = rep(0, 4), mgp = c(2, .5, 0))
 library(maps)
-```
-
-```
-## 
-## Attaching package: 'maps'
-```
-
-```
-## The following object is masked from 'package:purrr':
-## 
-##     map
-```
-
-```r
 coplot(lat ~ long | depth,
   data = quakes, number = 4,
   ylim = c(-45, -10.72), panel = function(x, y, ...) {
@@ -888,10 +887,20 @@ coplot(lat ~ long | depth,
     points(x, y, col = rgb(0.2, 0.2, 0.2, .5))
   }
 )
+
+quakes %>% 
+  mutate(depth_group = cut(depth, breaks = 4)) %>% 
+  ggplot() +
+  geom_polygon(data = map_data("world", region = c("New Zealand", "Fiji")),
+               mapping = aes(long, lat, group = group, fill = region)) +
+  geom_point(aes(long, lat), alpha = 0.1) +
+  facet_wrap(~depth_group) + 
+  xlim(160, 190) +
+  theme(legend.position = '')
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/coplot-1.svg" alt="(ref:fig-coplot)" width="460.8" />
+<img src="gallery_files/figure-html/coplot-1.png" alt="(ref:fig-coplot)" width="768" /><img src="gallery_files/figure-html/coplot-2.png" alt="(ref:fig-coplot)" width="768" />
 <p class="caption">(\#fig:coplot)(ref:fig-coplot)</p>
 </div>
 
