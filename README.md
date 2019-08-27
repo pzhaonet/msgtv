@@ -7,8 +7,7 @@
 
 缘起：<https://d.cosx.org/d/420857/5>
 
-这是《现代统计图形》一书的极乐净土版。即用 R 语言的 Tidyverse 包将原书中能替换的图重绘一遍。别无他意，惟练手耳。
-原书预览网址：<https://bookdown.org/xiangyun/msg/>
+这是《[现代统计图形（第一版）](https://bookdown.org/xiangyun/msg)》的极乐净土版。即用 R 语言的 Tidyverse 包将原书中能替换的图重绘一遍。
 
 以下是任务分配表。感兴趣的朋友可以认领各个章节，并在表中注明“xx 章节正在进行”，免得重复劳动。
 
