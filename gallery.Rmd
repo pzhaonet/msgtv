@@ -587,7 +587,7 @@ co.intervals(1:10, number = 5, overlap = 0.5)
 
 (ref:fig-coplot) 给定震源深图的地震经纬度条件分割图：四幅散点图有相同的坐标系，震源深度按左下、右下、左上、右上的顺序逐渐增加，可以看到地震发生地点逐渐在向斐济岛靠近。
 
-```{r coplot,fig.width=4.8,fig.height=4, fig.cap="(ref:fig-coplot)", fig.scap="(ref:fig-coplot-s)"}
+```{r coplot,fig.width=8,fig.height=7, fig.cap="(ref:fig-coplot)", fig.scap="(ref:fig-coplot-s)", fig.show = 'hold', dev= "png"}
 par(mar = rep(0, 4), mgp = c(2, .5, 0))
 library(maps)
 coplot(lat ~ long | depth,
@@ -602,6 +602,16 @@ coplot(lat ~ long | depth,
     points(x, y, col = rgb(0.2, 0.2, 0.2, .5))
   }
 )
+
+quakes %>% 
+  mutate(depth_group = cut(depth, breaks = 4)) %>% 
+  ggplot() +
+  geom_polygon(data = map_data("world", region = c("New Zealand", "Fiji")),
+               mapping = aes(long, lat, group = group, fill = region)) +
+  geom_point(aes(long, lat), alpha = 0.1) +
+  facet_wrap(~depth_group) + 
+  xlim(160, 190) +
+  theme(legend.position = '')
 ```
 
 
