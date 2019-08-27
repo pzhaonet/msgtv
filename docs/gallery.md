@@ -1,4 +1,5 @@
 
+
 # 图库 {#cha:gallery}
 
 > 他解释说："你要明白，我认为人的大脑原本像一间空空的屋子，必须有选择地用一些家具填满它。只有笨蛋才把他碰到的各种各样的破烂都塞进去。这样的话，那些可能用得上的知识就被挤了出来；或者，充其量也只是把那些破烂同其它东西混杂在一块儿。结果，在需要时却难得找到了。因此，一个善于工作的人，对于将什么东西纳入自己的头脑里是非常仔细的。他只会容纳那些工作时用得着的工具，而且又将这些工具分门别类，安排得井然有序。如果认为这间屋子的墙壁富有弹性，可以随意扩展，那就大错特错了。毫无疑问，总有一天，当你增加点滴知识时，却把从前熟悉的知识给忘记了。因此，不要让无用的信息挤掉那些有用的信息，这一点是至关重要的。"
@@ -512,10 +513,20 @@ usage(plot.default)
 
 ```r
 demo("alphaDemo", package = "MSG")
+
+ps <- BinormCircle %>% 
+  ggplot(aes(V1, V2)) + 
+  theme(panel.grid = element_blank(), 
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())
+ps1 <- ps + geom_point(color=rgb(1,0,0))
+ps2 <- ps + geom_point(color=rgb(1,0,0), alpha=.01)
+ggarrange(ps1, ps2)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/scatter-alpha-1.png" alt="(ref:fig-scatter-alpha)" width="384" />
+<img src="gallery_files/figure-html/scatter-alpha-1.png" alt="(ref:fig-scatter-alpha)" width="80%" /><img src="gallery_files/figure-html/scatter-alpha-2.png" alt="(ref:fig-scatter-alpha)" width="80%" />
 <p class="caption">(\#fig:scatter-alpha)(ref:fig-scatter-alpha)</p>
 </div>
 
@@ -749,16 +760,20 @@ usage(contourLines)
 
 ```r
 par(mar = c(4, 4, 0.2, 0.2))
-demo("contourPop", package = "MSG")
-```
+demo("contourPop", package = "MSG", echo = T)
 
-```
-## KernSmooth 2.23 loaded
-## Copyright M. P. Wand 1997-2009
+data.frame(x = est$x1, 
+           y = rep(est$x2, each = length(est$x1)), 
+           z = as.vector(est$fhat)) %>% 
+  ggplot() +
+  geom_contour(aes(x = x,y = y,z=z)) + 
+  geom_point(aes(Life.Expectancy, High.Edu.NO), data = x) +
+  labs(x = "\u9884\u671F\u5BFF\u547D", 
+       y = "\u9AD8\u5B66\u5386\u4EBA\u6570")
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/contour-pop-1.svg" alt="(ref:fig-contour-pop)" width="384" />
+<img src="gallery_files/figure-html/contour-pop-1.svg" alt="(ref:fig-contour-pop)" width="50%" /><img src="gallery_files/figure-html/contour-pop-2.svg" alt="(ref:fig-contour-pop)" width="50%" />
 <p class="caption">(\#fig:contour-pop)(ref:fig-contour-pop)</p>
 </div>
 
@@ -2521,32 +2536,6 @@ Plot）是密度曲线图与箱线图的结合，因为它的外观有时候与�
 
 ```r
 library(vioplot)
-```
-
-```
-## 载入需要的程辑包：sm
-```
-
-```
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
-```
-
-```
-## 载入需要的程辑包：zoo
-```
-
-```
-## 
-## 载入程辑包：'zoo'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     as.Date, as.Date.numeric
-```
-
-```r
 usage(vioplot)
 ```
 
