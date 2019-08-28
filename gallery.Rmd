@@ -914,10 +914,17 @@ gv + geom_contour()
 
 (ref:fig-matplot) 用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。
 
-```{r matplot,fig.width=4.8,fig.height=3.5,fig.cap="(ref:fig-matplot)",fig.scap="(ref:fig-matplot-s)"}
+```{r matplot,fig.width=4.8,fig.height=3.5,fig.cap="(ref:fig-matplot)",fig.scap="(ref:fig-matplot-s)", fig.show = 'hold', out.width='50%'}
 sines <- outer(1:20, 1:4, function(x, y) sin(x / 20 * pi * y))
 par(mar = c(1, 4, .1, .1))
 matplot(sines, type = "b", pch = 21:24, col = 2:5, bg = 2:5)
+
+expand.grid(x = 1:20, y = factor(1:4)) %>% 
+  mutate(sines = as.vector(sines)) %>% 
+  ggplot(aes(x = x, y = sines, color = y)) + 
+  geom_point(aes(shape = y)) +
+  geom_line()
+
 # 数据矩阵的前6行
 round(head(sines), 5)
 ```
@@ -1047,7 +1054,7 @@ panel.hist <- function(x, ...) {
 
 (ref:fig-pairs) 鸢尾花数据的散点图矩阵：上三角区域为不同样式的点，对应着不同种类的鸢尾花，对角线的直方图展示了花瓣花萼长宽的一维分布，下三角区域用平滑曲线显示了变量之间的关系。
 
-```{r pairs,fig.width=4.8,fig.height=4.8,fig.cap="(ref:fig-pairs)",fig.scap="(ref:fig-pairs-s)"}
+```{r pairs,fig.width=6,fig.height=6,fig.cap="(ref:fig-pairs)",fig.scap="(ref:fig-pairs-s)", fig.show = 'hold'}
 idx <- as.integer(iris[["Species"]])
 pairs(iris[1:4],
   upper.panel = function(x, y, ...)
@@ -1055,6 +1062,9 @@ pairs(iris[1:4],
   pch = 20, oma = c(2, 2, 2, 2),
   lower.panel = panel.smooth, diag.panel = panel.hist
 )
+
+GGally::ggpairs(iris, aes(color = Species, alpha = 0.2), 
+                lower = list(continuous = "smooth_loess"))
 ```
 
 
