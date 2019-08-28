@@ -54,6 +54,7 @@ knitr::knit_hooks$set(dev = function(before, options) {
 ```{r setup,include=FALSE}
 library(tidyverse)
 library(ggpubr)
+set.seed(711)
 ```
 
 
@@ -707,7 +708,7 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 ```{r filled-contour,fig.height=4.3,fig.width=7,results="hide",fig.cap="(ref:fig-filled-contour)",fig.scap="(ref:fig-filled-contour-s)", fig.show = 'hold'}
 demo("volcano", package = "MSG")
 
-volcano %>% 
+gv <- volcano %>% 
   reshape2::melt() %>% 
   mutate(x = Var1 * 10, y = Var2 * 10) %>% 
   ggplot(aes(x = x, y = y, z = value, fill = value)) + 
@@ -715,7 +716,7 @@ volcano %>%
   scale_fill_distiller(palette="RdYlGn") +
   theme_bw() +
   labs(x = 'Meters North', y = 'Meters West', fill = 'Height\n(meters)')
-
+gv
 ```
 
 R中的颜色等高图函数为 *filled.contour()*，其用法如下：
@@ -853,11 +854,19 @@ round(apply(UCBAdmissions, 3, function(x) chisq.test(x)$p.value), 3)
 
 (ref:fig-mage24) 颜色图中色块与数值的对应关系：矩阵中数值越大，色块越趋近于白色，反之趋近红色。
 
-```{r image24,fig.width=4,fig.height=1.2,fig.cap="(ref:fig-mage24)",fig.scap="(ref:fig-mage24-s)"}
+```{r image24,fig.width=4,fig.height=1.2,fig.cap="(ref:fig-mage24)",fig.scap="(ref:fig-mage24-s)", fig.show = 'hold'}
 par(mar = rep(0, 4))
 x <- matrix(sample(24), 8)
 image(1:8, 1:3, x, col = heat.colors(24), axes = FALSE, ann = FALSE)
 text(rep(1:8, 3), rep(1:3, each = 8), as.vector(x))
+
+expand.grid(h = 1:8, v = 1:3) %>% 
+  mutate(z = as.vector(x)) %>% 
+  ggplot(aes(x = h, y = v)) +
+  geom_tile(aes(fill = z)) +
+  scale_fill_distiller(palette="YlOrRd") +
+  geom_text(aes(label = z)) + 
+  theme_void()
 ```
 
 
@@ -877,7 +886,7 @@ usage(image.default)
 
 (ref:fig-image) 新西兰 Maunga Whau 火山高度颜色图：图 \@ref(fig:persp) 提供了真实的火山立体图形；读者可以到作者个人主页下载原图并放大8倍以上查看颜色图和颜色等高图的区别：颜色图是用颜色填充方块，而颜色等高图则是用颜色填充等高线之间的区域。
 
-```{r image,fig.height=6,fig.width=6,fig.cap="(ref:fig-image)",fig.scap="(ref:fig-image-s)"}
+```{r image,fig.height=6,fig.width=6,fig.cap="(ref:fig-image)",fig.scap="(ref:fig-image-s)", fig.show = 'hold'}
 par(mar = rep(0, 4), ann = FALSE)
 x <- 10 * (1:nrow(volcano))
 y <- 10 * (1:ncol(volcano))
@@ -887,6 +896,8 @@ contour(x, y, volcano,
   add = TRUE, col = "peru"
 )
 box()
+
+gv + geom_contour()
 ```
 
 这里我们仍然以新西兰 Maunga Whau 火山高度数据 `volcano` 为例。图  \@ref(fig:image)
