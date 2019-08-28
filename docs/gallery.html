@@ -24,7 +24,7 @@
 <meta name="author" content="谢益辉，黄湘云，赵鹏，张列弛" />
 
 
-<meta name="date" content="2019-08-27" />
+<meta name="date" content="2019-08-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -847,9 +847,18 @@ Plot）的思想源自于统计学中的条件分布，即：给定某一个（�
 Plot），与等高图的原理完全类似，只是颜色等高图用不同颜色表示不同高度，并配有颜色图例，用以说明图中的颜色与高度值的对应关系。读者可以回顾 <a href="gallery.html#sec:contour">1.8</a> 小节关于等高图的介绍。</p>
 
 
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="kw">demo</span>(<span class="st">&quot;volcano&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;MSG&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="kw">demo</span>(<span class="st">&quot;volcano&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;MSG&quot;</span>)</a>
+<a class="sourceLine" id="cb78-2" title="2"></a>
+<a class="sourceLine" id="cb78-3" title="3">volcano <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-4" title="4"><span class="st">  </span>reshape2<span class="op">::</span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">x =</span> Var1 <span class="op">*</span><span class="st"> </span><span class="dv">10</span>, <span class="dt">y =</span> Var2 <span class="op">*</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> value, <span class="dt">fill =</span> value)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-7" title="7"><span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-8" title="8"><span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette=</span><span class="st">&quot;RdYlGn&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb78-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb78-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Meters North&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Meters West&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;Height</span><span class="ch">\n</span><span class="st">(meters)&#39;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:filled-contour"></span>
-<img src="gallery_files/figure-html/filled-contour-1.svg" alt="新西兰 Maunga Whau 火山高度数据颜色等高图" width="672" />
+<img src="gallery_files/figure-html/filled-contour-1.svg" alt="新西兰 Maunga Whau 火山高度数据颜色等高图" width="672" /><img src="gallery_files/figure-html/filled-contour-2.svg" alt="新西兰 Maunga Whau 火山高度数据颜色等高图" width="672" />
 <p class="caption">
 图 1.15: 新西兰 Maunga Whau 火山高度数据颜色等高图
 </p>
@@ -996,9 +1005,17 @@ Ratio，OR）的角度出发对列联表进行检验。</p>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb92-2" title="2">x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">sample</span>(<span class="dv">24</span>), <span class="dv">8</span>)</a>
 <a class="sourceLine" id="cb92-3" title="3"><span class="kw">image</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, x, <span class="dt">col =</span> <span class="kw">heat.colors</span>(<span class="dv">24</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">ann =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb92-4" title="4"><span class="kw">text</span>(<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dv">3</span>), <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">each =</span> <span class="dv">8</span>), <span class="kw">as.vector</span>(x))</a></code></pre></div>
+<a class="sourceLine" id="cb92-4" title="4"><span class="kw">text</span>(<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dv">3</span>), <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">each =</span> <span class="dv">8</span>), <span class="kw">as.vector</span>(x))</a>
+<a class="sourceLine" id="cb92-5" title="5"></a>
+<a class="sourceLine" id="cb92-6" title="6"><span class="kw">expand.grid</span>(<span class="dt">h =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dt">v =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">z =</span> <span class="kw">as.vector</span>(x)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-8" title="8"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> h, <span class="dt">y =</span> v)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb92-9" title="9"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> z)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb92-10" title="10"><span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette=</span><span class="st">&quot;YlOrRd&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb92-11" title="11"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> z)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-12" title="12"><span class="st">  </span><span class="kw">theme_void</span>()</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:image24"></span>
-<img src="gallery_files/figure-html/image24-1.svg" alt="颜色图中色块与数值的对应关系：矩阵中数值越大，色块越趋近于白色，反之趋近红色。" width="384" />
+<img src="gallery_files/figure-html/image24-1.svg" alt="颜色图中色块与数值的对应关系：矩阵中数值越大，色块越趋近于白色，反之趋近红色。" width="384" /><img src="gallery_files/figure-html/image24-2.svg" alt="颜色图中色块与数值的对应关系：矩阵中数值越大，色块越趋近于白色，反之趋近红色。" width="384" />
 <p class="caption">
 图 1.17: 颜色图中色块与数值的对应关系：矩阵中数值越大，色块越趋近于白色，反之趋近红色。
 </p>

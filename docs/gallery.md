@@ -1023,10 +1023,19 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 
 ```r
 demo("volcano", package = "MSG")
+
+volcano %>% 
+  reshape2::melt() %>% 
+  mutate(x = Var1 * 10, y = Var2 * 10) %>% 
+  ggplot(aes(x = x, y = y, z = value, fill = value)) + 
+  geom_tile() + 
+  scale_fill_distiller(palette="RdYlGn") +
+  theme_bw() +
+  labs(x = 'Meters North', y = 'Meters West', fill = 'Height\n(meters)')
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/filled-contour-1.svg" alt="(ref:fig-filled-contour)" width="672" />
+<img src="gallery_files/figure-html/filled-contour-1.svg" alt="(ref:fig-filled-contour)" width="672" /><img src="gallery_files/figure-html/filled-contour-2.svg" alt="(ref:fig-filled-contour)" width="672" />
 <p class="caption">(\#fig:filled-contour)(ref:fig-filled-contour)</p>
 </div>
 
@@ -1231,10 +1240,18 @@ par(mar = rep(0, 4))
 x <- matrix(sample(24), 8)
 image(1:8, 1:3, x, col = heat.colors(24), axes = FALSE, ann = FALSE)
 text(rep(1:8, 3), rep(1:3, each = 8), as.vector(x))
+
+expand.grid(h = 1:8, v = 1:3) %>% 
+  mutate(z = as.vector(x)) %>% 
+  ggplot(aes(x = h, y = v)) +
+  geom_tile(aes(fill = z)) +
+  scale_fill_distiller(palette="YlOrRd") +
+  geom_text(aes(label = z)) + 
+  theme_void()
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/image24-1.svg" alt="(ref:fig-mage24)" width="384" />
+<img src="gallery_files/figure-html/image24-1.svg" alt="(ref:fig-mage24)" width="384" /><img src="gallery_files/figure-html/image24-2.svg" alt="(ref:fig-mage24)" width="384" />
 <p class="caption">(\#fig:image24)(ref:fig-mage24)</p>
 </div>
 

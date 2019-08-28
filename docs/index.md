@@ -3,7 +3,7 @@
 title: "现代统计图形之极乐净土"
 subtitle: "Modern Statistical Graphics with Tidyverse"
 author: "谢益辉，黄湘云，赵鹏，张列弛"
-date: "2019-08-27"
+date: "2019-08-28"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, MSG-packages.bib, Modern-Stat-Graphics.bib]
