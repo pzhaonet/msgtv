@@ -849,14 +849,15 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="kw">demo</span>(<span class="st">&quot;volcano&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;MSG&quot;</span>)</a>
 <a class="sourceLine" id="cb78-2" title="2"></a>
-<a class="sourceLine" id="cb78-3" title="3">volcano <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb78-3" title="3">gv &lt;-<span class="st"> </span>volcano <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb78-4" title="4"><span class="st">  </span>reshape2<span class="op">::</span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb78-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">x =</span> Var1 <span class="op">*</span><span class="st"> </span><span class="dv">10</span>, <span class="dt">y =</span> Var2 <span class="op">*</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb78-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> value, <span class="dt">fill =</span> value)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb78-7" title="7"><span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb78-8" title="8"><span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette=</span><span class="st">&quot;RdYlGn&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb78-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb78-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Meters North&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Meters West&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;Height</span><span class="ch">\n</span><span class="st">(meters)&#39;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb78-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Meters North&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Meters West&#39;</span>, <span class="dt">fill =</span> <span class="st">&#39;Height</span><span class="ch">\n</span><span class="st">(meters)&#39;</span>)</a>
+<a class="sourceLine" id="cb78-11" title="11">gv</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:filled-contour"></span>
 <img src="gallery_files/figure-html/filled-contour-1.svg" alt="新西兰 Maunga Whau 火山高度数据颜色等高图" width="672" /><img src="gallery_files/figure-html/filled-contour-2.svg" alt="新西兰 Maunga Whau 火山高度数据颜色等高图" width="672" />
 <p class="caption">
@@ -1042,9 +1043,11 @@ Image）与颜色等高图看起来非常类似，但是等高图需要从网格
 <a class="sourceLine" id="cb95-6" title="6">  <span class="dt">levels =</span> <span class="kw">seq</span>(<span class="dv">90</span>, <span class="dv">200</span>, <span class="dt">by =</span> <span class="dv">5</span>),</a>
 <a class="sourceLine" id="cb95-7" title="7">  <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;peru&quot;</span></a>
 <a class="sourceLine" id="cb95-8" title="8">)</a>
-<a class="sourceLine" id="cb95-9" title="9"><span class="kw">box</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb95-9" title="9"><span class="kw">box</span>()</a>
+<a class="sourceLine" id="cb95-10" title="10"></a>
+<a class="sourceLine" id="cb95-11" title="11">gv <span class="op">+</span><span class="st"> </span><span class="kw">geom_contour</span>()</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:image"></span>
-<img src="gallery_files/figure-html/image-1.svg" alt="新西兰 Maunga Whau 火山高度颜色图：图 1.22 提供了真实的火山立体图形；读者可以到作者个人主页下载原图并放大8倍以上查看颜色图和颜色等高图的区别：颜色图是用颜色填充方块，而颜色等高图则是用颜色填充等高线之间的区域。" width="576" />
+<img src="gallery_files/figure-html/image-1.svg" alt="新西兰 Maunga Whau 火山高度颜色图：图 1.22 提供了真实的火山立体图形；读者可以到作者个人主页下载原图并放大8倍以上查看颜色图和颜色等高图的区别：颜色图是用颜色填充方块，而颜色等高图则是用颜色填充等高线之间的区域。" width="576" /><img src="gallery_files/figure-html/image-2.svg" alt="新西兰 Maunga Whau 火山高度颜色图：图 1.22 提供了真实的火山立体图形；读者可以到作者个人主页下载原图并放大8倍以上查看颜色图和颜色等高图的区别：颜色图是用颜色填充方块，而颜色等高图则是用颜色填充等高线之间的区域。" width="576" />
 <p class="caption">
 图 1.18: 新西兰 Maunga Whau 火山高度颜色图：图 <a href="gallery.html#fig:persp">1.22</a> 提供了真实的火山立体图形；读者可以到作者个人主页下载原图并放大8倍以上查看颜色图和颜色等高图的区别：颜色图是用颜色填充方块，而颜色等高图则是用颜色填充等高线之间的区域。
 </p>
@@ -1061,15 +1064,16 @@ Image）与颜色等高图看起来非常类似，但是等高图需要从网格
 
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1">sines &lt;-<span class="st"> </span><span class="kw">outer</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="cf">function</span>(x, y) <span class="kw">sin</span>(x <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>y))</a>
 <a class="sourceLine" id="cb96-2" title="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="fl">.1</span>, <span class="fl">.1</span>))</a>
-<a class="sourceLine" id="cb96-3" title="3"><span class="kw">matplot</span>(sines, <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span><span class="op">:</span><span class="dv">24</span>, <span class="dt">col =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">bg =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>)</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:matplot"></span>
-<img src="gallery_files/figure-html/matplot-1.svg" alt="用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。" width="460.8" />
-<p class="caption">
-图 1.19: 用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。
-</p>
-</div>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="co"># 数据矩阵的前6行</span></a>
-<a class="sourceLine" id="cb97-2" title="2"><span class="kw">round</span>(<span class="kw">head</span>(sines), <span class="dv">5</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb96-3" title="3"><span class="kw">matplot</span>(sines, <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span><span class="op">:</span><span class="dv">24</span>, <span class="dt">col =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">bg =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb96-4" title="4"></a>
+<a class="sourceLine" id="cb96-5" title="5"><span class="kw">expand.grid</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dt">y =</span> <span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb96-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sines =</span> <span class="kw">as.vector</span>(sines)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb96-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> sines, <span class="dt">color =</span> y)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb96-8" title="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb96-9" title="9"><span class="st">  </span><span class="kw">geom_line</span>()</a>
+<a class="sourceLine" id="cb96-10" title="10"></a>
+<a class="sourceLine" id="cb96-11" title="11"><span class="co"># 数据矩阵的前6行</span></a>
+<a class="sourceLine" id="cb96-12" title="12"><span class="kw">round</span>(<span class="kw">head</span>(sines), <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>##         [,1]    [,2]    [,3]     [,4]
 ## [1,] 0.15643 0.30902 0.45399  0.58779
 ## [2,] 0.30902 0.58779 0.80902  0.95106
@@ -1077,16 +1081,22 @@ Image）与颜色等高图看起来非常类似，但是等高图需要从网格
 ## [4,] 0.58779 0.95106 0.95106  0.58779
 ## [5,] 0.70711 1.00000 0.70711  0.00000
 ## [6,] 0.80902 0.95106 0.30902 -0.58779</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:matplot"></span>
+<img src="gallery_files/figure-html/matplot-1.svg" alt="用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。" width="50%" /><img src="gallery_files/figure-html/matplot-2.svg" alt="用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。" width="50%" />
+<p class="caption">
+图 1.19: 用矩阵图画出的一系列正弦曲线：每条曲线都有不同的点线样式和颜色。
+</p>
+</div>
 <p>矩阵图的名称来自于其参数类型，它可以针对一个矩阵将所有列以曲线的形式表达出来，同一元函数曲线图（<a href="gallery.html#sec:curve">1.10</a> 小节）一样，它也没有什么特别之处，仅仅是提供了一个便利的封装，我们可以不必调用 <em>lines()</em> 等函数依次对矩阵的所有列画曲线。</p>
 <p>R中矩阵图的函数为 <em>matplot()</em>，矩阵点的函数为 <em>matpoints()</em>，矩阵线的函数为 <em>matlines()</em>，它们的用法如下：</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">usage</span>(matplot)</a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1"><span class="kw">usage</span>(matplot)</a></code></pre></div>
 <pre><code>## matplot(x, y, type = &quot;p&quot;, lty = 1:5, lwd = 1, lend = par(&quot;lend&quot;),
 ##     pch = NULL, col = 1:6, cex = NULL, bg = NA, xlab = NULL, ylab = NULL,
 ##     xlim = NULL, ylim = NULL, log = &quot;&quot;, ..., add = FALSE,
 ##     verbose = getOption(&quot;verbose&quot;))</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1"><span class="kw">usage</span>(matpoints)</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1"><span class="kw">usage</span>(matpoints)</a></code></pre></div>
 <pre><code>## matpoints(x, y, type = &quot;p&quot;, lty = 1:5, lwd = 1, pch = NULL, col = 1:6, ...)</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1"><span class="kw">usage</span>(matlines)</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1"><span class="kw">usage</span>(matlines)</a></code></pre></div>
 <pre><code>## matlines(x, y, type = &quot;l&quot;, lty = 1:5, lwd = 1, pch = NULL, col = 1:6, ...)</code></pre>
 <p>函数 <em>matplot()</em> 为高层作图函数（创建新图形），而后两个函数均为低层作图函数（向现有图形上添加元素）。参数 x 和 y 为输入的矩阵，做图的方式是用 x 的列为横轴方向的变量， y 的列为纵轴方向的变量，然后用这些列依次作散点图（ x 的第一列对 y 的第一列， x 的第二列对 y 的第二列，依次类推）；如果这两个参数有一个缺失，那么 x 将被 <code>1:nrow(y)</code> 代替， y 被非缺失的参数矩阵代替；注意两个矩阵要么有一个列数为1，要么列数相等，否则会报错；后面设置颜色、线型等样式的参数 type 、 lty 、 lwd 、 pch 、 col 、 cex 、 bg 等在附录 <a href="#cha:tricks"><strong>??</strong></a>
 和第 <a href="#cha:elements"><strong>??</strong></a>
@@ -1124,19 +1134,19 @@ G^{2}=2\sum n_{ij}\mathrm{log}(\frac{n_{ij}}{\hat{\mu}_{ij}});\;\;\chi^{2}=\sum\
 \end{equation}\]</span></p>
 <p>残差反映的是某个单元格拟合的好坏，马赛克图用5级颜色表达了残差的大小，后面我们结合具体例子说明。</p>
 <p>R中马赛克图的函数为 <em>mosaicplot()</em> ，其用法如下：</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>mosaicplot.default)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>mosaicplot.default)</a></code></pre></div>
 <pre><code>## ## Default S3 method:
 ## mosaicplot(x, main = deparse(substitute(x)), sub = NULL, xlab = NULL,
 ##     ylab = NULL, sort = NULL, off = NULL, dir = NULL, color = NULL,
 ##     shade = FALSE, margin = NULL, cex.axis = 0.66, las = par(&quot;las&quot;),
 ##     border = NULL, type = c(&quot;pearson&quot;, &quot;deviance&quot;, &quot;FT&quot;), ...)</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>mosaicplot.formula)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>mosaicplot.formula)</a></code></pre></div>
 <pre><code>## ## S3 method for class &#39;formula&#39;
 ## mosaicplot(formula, data = NULL, ..., main = deparse(substitute(data)),
 ##     subset, na.action = stats::na.omit)</code></pre>
 <p>马赛克图函数是泛型函数，可以直接接受列联表数据或者公式作为参数，这里我们只介绍前一种情况。 x 为一个列联表数据（可以用函数 <em>table()</em> 生成）； main 、 sub 、 xlab 和 ylab 分别设定主标题、副标题和坐标轴标题； sort 指定展示变量的顺序； dir 指定马赛克图的拆分方向（横向拆分或纵向拆分）； type 给定残差的类型，即如前所述的三种残差。</p>
 <p>下面我们结合泰坦尼克号数据<code>Titanic</code>来说明马赛克图的用法。泰坦尼克号乘客生存情况的原始数据如下：</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="kw">ftable</span>(Titanic)</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="kw">ftable</span>(Titanic)</a></code></pre></div>
 <pre><code>##                    Survived  No Yes
 ## Class Sex    Age                   
 ## 1st   Male   Child            0   5
@@ -1158,8 +1168,8 @@ G^{2}=2\sum n_{ij}\mathrm{log}(\frac{n_{ij}}{\hat{\mu}_{ij}});\;\;\chi^{2}=\sum\
 <p>该数据给出了分舱位（一二三等舱和船员舱）、分性别（男女）、分年龄（大人小孩）的生存情况。泰坦尼克号的沉没是一件著名的历史事件，至今仍然有很多人在研究它。我们所关心的问题主要是通过一些比例看出当时救援的侧重性，如：是否头等舱的乘客生还比例最高？“女士和孩子优先”的原则在各船舱有没有被很好遵守？……</p>
 
 
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="fl">3.5</span>, <span class="fl">.1</span>, <span class="fl">.1</span>))</a>
-<a class="sourceLine" id="cb111-2" title="2"><span class="kw">mosaicplot</span>(Titanic, <span class="dt">shade =</span> <span class="ot">TRUE</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="fl">3.5</span>, <span class="fl">.1</span>, <span class="fl">.1</span>))</a>
+<a class="sourceLine" id="cb110-2" title="2"><span class="kw">mosaicplot</span>(Titanic, <span class="dt">shade =</span> <span class="ot">TRUE</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:mosaicplot"></span>
 <img src="gallery_files/figure-html/mosaicplot-1.svg" alt="泰坦尼克号乘客生存数据马赛克图：按性别、年龄和船舱等级划分" width="499.2" />
 <p class="caption">
@@ -1174,40 +1184,46 @@ G^{2}=2\sum n_{ij}\mathrm{log}(\frac{n_{ij}}{\hat{\mu}_{ij}});\;\;\chi^{2}=\sum\
 <p>散点图矩阵（Scatterplot
 Matrices）是散点图的高维扩展，它的基本构成是普通散点图，只是将多个变量的两两散点图以矩阵的形式排列起来，就构成了所谓的散点图矩阵，它通常包含<span class="math inline">\(p\times p\)</span>个窗格（<span class="math inline">\(p\)</span> 为变量个数）。散点图矩阵从一定程度上克服了在平面上展示高维数据的困难，对于我们查看变量之间的两两关系非常有用。</p>
 <p>R中散点图矩阵的函数为 <em>pairs()</em> ，其用法如下：</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1"><span class="kw">usage</span>(pairs.default)</a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">usage</span>(pairs.default)</a></code></pre></div>
 <pre><code>## ## Default S3 method:
 ## pairs(x, labels, panel = points, ..., horInd = 1:nc, verInd = 1:nc,
 ##     lower.panel = panel, upper.panel = panel, diag.panel = NULL,
 ##     text.panel = textPanel, label.pos = 0.5 + has.diag/3, line.main = 3,
 ##     cex.labels = NULL, font.labels = 1, row1attop = TRUE, gap = 1,
 ##     log = &quot;&quot;, horOdd = !row1attop, verOdd = !row1attop)</code></pre>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>pairs.formula)</a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1"><span class="kw">usage</span>(graphics<span class="op">:::</span>pairs.formula)</a></code></pre></div>
 <pre><code>## ## S3 method for class &#39;formula&#39;
 ## pairs(formula, data = NULL, ..., subset, na.action = stats::na.pass)</code></pre>
 <p>散点图矩阵函数是泛型函数，可以直接接受数据矩阵或者公式作为参数。 x 是一个矩阵或数据框，包含了要作散点图的那些变量； labels 是变量名称（标签）； panel 参数给定一个画散点图的函数，这个函数将应用在每一格图形中；有时候我们并不需要统一的散点图函数，这时可以利用 lower.panel 和 upper.panel 来分别指定上三角窗格和下三角窗格中的作图函数，也就意味着上三角和下三角窗格中的图形（不一定非得是散点图）可以不一样； diag.panel 和 text.panel 分别指定对角线窗格上的作图函数和添加文本标签的函数； label.pos 指定文本标签的位置； cex.labels 指定标签的缩放倍数； font.labels 指定标签的字体样式； row1attop 为逻辑值，指定散点图的第1行出现在顶部还是底部（按常规讲，前者是矩阵的形式，后者是图的形式，因为矩阵通常是从上至下、从左至右，而图的坐标是从下至上、从左至右）； gap 设定窗格之间的间距大小。</p>
 <p>图 <a href="gallery.html#fig:pairs">1.21</a>
 是对鸢尾花数据<code>iris</code>所作的散点图矩阵，注意其中的上三角和下三角作图函数是如何定义的。对角线窗格显示的是自定义的直方图，定义如下：</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1"><span class="co"># 观察如何使用hist()做计算并用rect()画图</span></a>
-<a class="sourceLine" id="cb116-2" title="2">panel.hist &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</a>
-<a class="sourceLine" id="cb116-3" title="3">  usr &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)</a>
-<a class="sourceLine" id="cb116-4" title="4">  <span class="kw">on.exit</span>(<span class="kw">par</span>(usr))</a>
-<a class="sourceLine" id="cb116-5" title="5">  <span class="kw">par</span>(<span class="dt">usr =</span> <span class="kw">c</span>(usr[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">0</span>, <span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb116-6" title="6">  h &lt;-<span class="st"> </span><span class="kw">hist</span>(x, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb116-7" title="7">  nB &lt;-<span class="st"> </span><span class="kw">length</span>(breaks &lt;-<span class="st"> </span>h<span class="op">$</span>breaks)</a>
-<a class="sourceLine" id="cb116-8" title="8">  y &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="op">/</span><span class="st"> </span><span class="kw">max</span>(h<span class="op">$</span>counts)</a>
-<a class="sourceLine" id="cb116-9" title="9">  <span class="kw">rect</span>(breaks[<span class="op">-</span>nB], <span class="dv">0</span>, breaks[<span class="op">-</span><span class="dv">1</span>], y, <span class="dt">col =</span> <span class="st">&quot;beige&quot;</span>)</a>
-<a class="sourceLine" id="cb116-10" title="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="co"># 观察如何使用hist()做计算并用rect()画图</span></a>
+<a class="sourceLine" id="cb115-2" title="2">panel.hist &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</a>
+<a class="sourceLine" id="cb115-3" title="3">  usr &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>)</a>
+<a class="sourceLine" id="cb115-4" title="4">  <span class="kw">on.exit</span>(<span class="kw">par</span>(usr))</a>
+<a class="sourceLine" id="cb115-5" title="5">  <span class="kw">par</span>(<span class="dt">usr =</span> <span class="kw">c</span>(usr[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">0</span>, <span class="fl">1.5</span>))</a>
+<a class="sourceLine" id="cb115-6" title="6">  h &lt;-<span class="st"> </span><span class="kw">hist</span>(x, <span class="dt">plot =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb115-7" title="7">  nB &lt;-<span class="st"> </span><span class="kw">length</span>(breaks &lt;-<span class="st"> </span>h<span class="op">$</span>breaks)</a>
+<a class="sourceLine" id="cb115-8" title="8">  y &lt;-<span class="st"> </span>h<span class="op">$</span>counts <span class="op">/</span><span class="st"> </span><span class="kw">max</span>(h<span class="op">$</span>counts)</a>
+<a class="sourceLine" id="cb115-9" title="9">  <span class="kw">rect</span>(breaks[<span class="op">-</span>nB], <span class="dv">0</span>, breaks[<span class="op">-</span><span class="dv">1</span>], y, <span class="dt">col =</span> <span class="st">&quot;beige&quot;</span>)</a>
+<a class="sourceLine" id="cb115-10" title="10">}</a></code></pre></div>
 
 
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1">idx &lt;-<span class="st"> </span><span class="kw">as.integer</span>(iris[[<span class="st">&quot;Species&quot;</span>]])</a>
-<a class="sourceLine" id="cb117-2" title="2"><span class="kw">pairs</span>(iris[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],</a>
-<a class="sourceLine" id="cb117-3" title="3">  <span class="dt">upper.panel =</span> <span class="cf">function</span>(x, y, ...)</a>
-<a class="sourceLine" id="cb117-4" title="4">    <span class="kw">points</span>(x, y, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">6</span>)[idx], <span class="dt">col =</span> idx),</a>
-<a class="sourceLine" id="cb117-5" title="5">  <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">oma =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb117-6" title="6">  <span class="dt">lower.panel =</span> panel.smooth, <span class="dt">diag.panel =</span> panel.hist</a>
-<a class="sourceLine" id="cb117-7" title="7">)</a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1">idx &lt;-<span class="st"> </span><span class="kw">as.integer</span>(iris[[<span class="st">&quot;Species&quot;</span>]])</a>
+<a class="sourceLine" id="cb116-2" title="2"><span class="kw">pairs</span>(iris[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],</a>
+<a class="sourceLine" id="cb116-3" title="3">  <span class="dt">upper.panel =</span> <span class="cf">function</span>(x, y, ...)</a>
+<a class="sourceLine" id="cb116-4" title="4">    <span class="kw">points</span>(x, y, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">6</span>)[idx], <span class="dt">col =</span> idx),</a>
+<a class="sourceLine" id="cb116-5" title="5">  <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">oma =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb116-6" title="6">  <span class="dt">lower.panel =</span> panel.smooth, <span class="dt">diag.panel =</span> panel.hist</a>
+<a class="sourceLine" id="cb116-7" title="7">)</a>
+<a class="sourceLine" id="cb116-8" title="8"></a>
+<a class="sourceLine" id="cb116-9" title="9">GGally<span class="op">::</span><span class="kw">ggpairs</span>(iris, <span class="kw">aes</span>(<span class="dt">color =</span> Species, <span class="dt">alpha =</span> <span class="fl">0.2</span>), <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="st">&quot;smooth_loess&quot;</span>))</a></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:pairs"></span>
-<img src="gallery_files/figure-html/pairs-1.svg" alt="鸢尾花数据的散点图矩阵：上三角区域为不同样式的点，对应着不同种类的鸢尾花，对角线的直方图展示了花瓣花萼长宽的一维分布，下三角区域用平滑曲线显示了变量之间的关系。" width="460.8" />
+<img src="gallery_files/figure-html/pairs-1.svg" alt="鸢尾花数据的散点图矩阵：上三角区域为不同样式的点，对应着不同种类的鸢尾花，对角线的直方图展示了花瓣花萼长宽的一维分布，下三角区域用平滑曲线显示了变量之间的关系。" width="576" /><img src="gallery_files/figure-html/pairs-2.svg" alt="鸢尾花数据的散点图矩阵：上三角区域为不同样式的点，对应着不同种类的鸢尾花，对角线的直方图展示了花瓣花萼长宽的一维分布，下三角区域用平滑曲线显示了变量之间的关系。" width="576" />
 <p class="caption">
 图 1.21: 鸢尾花数据的散点图矩阵：上三角区域为不同样式的点，对应着不同种类的鸢尾花，对角线的直方图展示了花瓣花萼长宽的一维分布，下三角区域用平滑曲线显示了变量之间的关系。
 </p>

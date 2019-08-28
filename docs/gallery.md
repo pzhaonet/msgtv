@@ -1024,7 +1024,7 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 ```r
 demo("volcano", package = "MSG")
 
-volcano %>% 
+gv <- volcano %>% 
   reshape2::melt() %>% 
   mutate(x = Var1 * 10, y = Var2 * 10) %>% 
   ggplot(aes(x = x, y = y, z = value, fill = value)) + 
@@ -1032,6 +1032,7 @@ volcano %>%
   scale_fill_distiller(palette="RdYlGn") +
   theme_bw() +
   labs(x = 'Meters North', y = 'Meters West', fill = 'Height\n(meters)')
+gv
 ```
 
 <div class="figure" style="text-align: center">
@@ -1293,10 +1294,12 @@ contour(x, y, volcano,
   add = TRUE, col = "peru"
 )
 box()
+
+gv + geom_contour()
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/image-1.svg" alt="(ref:fig-image)" width="576" />
+<img src="gallery_files/figure-html/image-1.svg" alt="(ref:fig-image)" width="576" /><img src="gallery_files/figure-html/image-2.svg" alt="(ref:fig-image)" width="576" />
 <p class="caption">(\#fig:image)(ref:fig-image)</p>
 </div>
 
@@ -1319,14 +1322,13 @@ box()
 sines <- outer(1:20, 1:4, function(x, y) sin(x / 20 * pi * y))
 par(mar = c(1, 4, .1, .1))
 matplot(sines, type = "b", pch = 21:24, col = 2:5, bg = 2:5)
-```
 
-<div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/matplot-1.svg" alt="(ref:fig-matplot)" width="460.8" />
-<p class="caption">(\#fig:matplot)(ref:fig-matplot)</p>
-</div>
+expand.grid(x = 1:20, y = factor(1:4)) %>% 
+  mutate(sines = as.vector(sines)) %>% 
+  ggplot(aes(x = x, y = sines, color = y)) + 
+  geom_point(aes(shape = y)) +
+  geom_line()
 
-```r
 # 数据矩阵的前6行
 round(head(sines), 5)
 ```
@@ -1340,6 +1342,11 @@ round(head(sines), 5)
 ## [5,] 0.70711 1.00000 0.70711  0.00000
 ## [6,] 0.80902 0.95106 0.30902 -0.58779
 ```
+
+<div class="figure" style="text-align: center">
+<img src="gallery_files/figure-html/matplot-1.svg" alt="(ref:fig-matplot)" width="50%" /><img src="gallery_files/figure-html/matplot-2.svg" alt="(ref:fig-matplot)" width="50%" />
+<p class="caption">(\#fig:matplot)(ref:fig-matplot)</p>
+</div>
 
 
 矩阵图的名称来自于其参数类型，它可以针对一个矩阵将所有列以曲线的形式表达出来，同一元函数曲线图（\@ref(sec:curve) 小节）一样，它也没有什么特别之处，仅仅是提供了一个便利的封装，我们可以不必调用 *lines()* 等函数依次对矩阵的所有列画曲线。
@@ -1562,10 +1569,19 @@ pairs(iris[1:4],
   pch = 20, oma = c(2, 2, 2, 2),
   lower.panel = panel.smooth, diag.panel = panel.hist
 )
+
+GGally::ggpairs(iris, aes(color = Species, alpha = 0.2), lower = list(continuous = "smooth_loess"))
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
 <div class="figure" style="text-align: center">
-<img src="gallery_files/figure-html/pairs-1.svg" alt="(ref:fig-pairs)" width="460.8" />
+<img src="gallery_files/figure-html/pairs-1.svg" alt="(ref:fig-pairs)" width="576" /><img src="gallery_files/figure-html/pairs-2.svg" alt="(ref:fig-pairs)" width="576" />
 <p class="caption">(\#fig:pairs)(ref:fig-pairs)</p>
 </div>
 
