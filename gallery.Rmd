@@ -704,8 +704,18 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 
 (ref:fig-filled-contour) 新西兰 Maunga Whau 火山高度数据颜色等高图
 
-```{r filled-contour,fig.height=4.3,fig.width=7,results="hide",fig.cap="(ref:fig-filled-contour)",fig.scap="(ref:fig-filled-contour-s)"}
+```{r filled-contour,fig.height=4.3,fig.width=7,results="hide",fig.cap="(ref:fig-filled-contour)",fig.scap="(ref:fig-filled-contour-s)", fig.show = 'hold'}
 demo("volcano", package = "MSG")
+
+volcano %>% 
+  reshape2::melt() %>% 
+  mutate(x = Var1 * 10, y = Var2 * 10) %>% 
+  ggplot(aes(x = x, y = y, z = value, fill = value)) + 
+  geom_tile() + 
+  scale_fill_distiller(palette="RdYlGn") +
+  theme_bw() +
+  labs(x = 'Meters North', y = 'Meters West', fill = 'Height\n(meters)')
+
 ```
 
 R中的颜色等高图函数为 *filled.contour()*，其用法如下：
