@@ -20,7 +20,7 @@
 | 4 图库, 4.1 - 4.9 节 | [pzhaonet](https://github.com/pzhaonet/) | 已完成。 |
 | 4 图库, 4.10 - 4.19 节 | [pzhaonet](https://github.com/pzhaonet/) | 正在进行。 |
 | 5 系统            |       liechi                             | 周末进行 (暂停一下)  |
-| 6 数据            |                                          |       |
+| 6 数据            | [yiluheihei](https://github.com/yiluheihei) |   搬砖开始 |
 | 7 原则            |                                          |       |
 | A 程序初步        |                                          |       |
 | B 细节技巧        |                                          |       |
