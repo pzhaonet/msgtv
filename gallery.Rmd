@@ -711,11 +711,11 @@ demo("volcano", package = "MSG")
 
 gv <- as.data.frame(volcano) %>% 
   rowid_to_column("north") %>% 
-  pivot_longer(-north) %>% 
-  mutate(
-    west = str_replace_all(name, "V", "") %>% as.numeric() %>% `*`(10),
-    north = north * 10
+  pivot_longer(-north, 
+    names_to = "west", names_prefix = "V", 
+    names_ptypes = list(west = integer())
   ) %>% 
+  mutate(north = north * 10, west = west * 10) %>% 
   ggplot(aes(x = north, y = west, z = value, fill = value)) + 
   geom_tile() + 
   scale_fill_distiller(palette = "RdYlGn") +
