@@ -377,8 +377,9 @@ coef(summary(lm(V2 ~ V1, BinormCircle)))
 assocplot(x)
 chisq.test(x)$p.value # 卡方检验P值
 
-reshape2::melt(unclass(chisq.test(x)$res), value.name = "residuals") %>% 
-  ggplot(aes(x = Hair, y = Eye)) +
+chisq.test(x)$res %>% 
+  as.data.frame(responseName = "residuals") %>% 
+  ggplot(aes(Hair, Eye)) + 
     geom_tile(aes(fill = residuals)) +
     scale_fill_gradient2()
 ```
@@ -708,12 +709,16 @@ Plot），与等高图的原理完全类似，只是颜色等高图用不同颜�
 ```{r filled-contour,fig.height=4.3,fig.width=7,results="hide",fig.cap="(ref:fig-filled-contour)",fig.scap="(ref:fig-filled-contour-s)", fig.show = 'hold'}
 demo("volcano", package = "MSG")
 
-gv <- volcano %>% 
-  reshape2::melt() %>% 
-  mutate(x = Var1 * 10, y = Var2 * 10) %>% 
-  ggplot(aes(x = x, y = y, z = value, fill = value)) + 
+gv <- as.data.frame(volcano) %>% 
+  rowid_to_column("north") %>% 
+  pivot_longer(-north, 
+    names_to = "west", names_prefix = "V", 
+    names_ptypes = list(west = integer())
+  ) %>% 
+  mutate(north = north * 10, west = west * 10) %>% 
+  ggplot(aes(x = north, y = west, z = value, fill = value)) + 
   geom_tile() + 
-  scale_fill_distiller(palette="RdYlGn") +
+  scale_fill_distiller(palette = "RdYlGn") +
   theme_bw() +
   labs(x = 'Meters North', y = 'Meters West', fill = 'Height\n(meters)')
 gv
