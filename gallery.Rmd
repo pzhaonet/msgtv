@@ -1364,9 +1364,52 @@ usage(graphics:::stripchart.formula)
 
 (ref:fig-sunflowerplot) 鸢尾花花瓣长和宽的向日葵散点图
 
-```{r sunflowerplot,fig.width=4,fig.height=4,fig.cap="(ref:fig-sunflowerplot)",fig.scap="(ref:fig-sunflowerplot-s)"}
+```{r sunflowerplot,fig.width=4,fig.height=4,fig.cap="(ref:fig-sunflowerplot)",fig.scap="(ref:fig-sunflowerplot-s)",fig.show="hold"}
 par(mar = c(4, 4, 0.2, 0.2))
 sunflowerplot(iris[, 3:4], col = "gold", seg.col = "gold")
+
+#' Get coordinates of flower leaves
+#' 
+#' @param x,y numberic vector of length one
+#' @param number number of the overplot points `(x, y)`
+#' @param size of sunflower leaves in inches, 1[in] := 2.54[cm]. Default: 1/8, 
+#' approximately 3.2mm.
+#' @param p ggplot object, points
+get_leaves <- function(x, y, number, p, size = 1/8) {
+  degree <- purrr::map_dbl(seq_len(number), ~ (2 * pi * .x)/number)
+  
+  degree <- (2 * pi)/number * seq_len(number)
+  
+  # sunflower leaves in inches, code was adapted from the source of function
+  # graphics:::sunflowerplot.default()
+  ppin <- par("pin")
+  p_scales <- layer_scales(p)
+  xrange <- p_scales$x$range$range
+  yrange <- p_scales$y$range$range
+  xr <- size * abs(xrange[2] - xrange[1])/ppin[1]
+  yr <- size * abs(yrange[2] - yrange[1])/ppin[2]
+  
+  data.frame(
+    x1 = x,
+    x2 = x + xr * sin(degree), 
+    y1 = y,
+    y2 = y + yr * cos(degree)
+  )
+}
+
+sunflower <- xyTable(iris[, 3:4]) %>% 
+  bind_cols()
+is_multiple <- sunflower$number > 1
+p <- ggplot() +
+  geom_point(aes(x, y), sunflower, col = "gold")
+leaves <- purrr::map_df(sunflower, ~ .x[which(is_multiple)]) %>% 
+  purrr::pmap(get_leaves, p = p) %>% 
+  bind_rows()
+
+p + geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), 
+  leaves, col = "gold") +
+  labs(x = "Petal.Length", y = "Petal.Width")
+
 ```
 
 向日葵散点图（Sunflower Scatter
