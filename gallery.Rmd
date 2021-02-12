@@ -1009,9 +1009,77 @@ ftable(Titanic)
 
 (ref:fig-mosaicplot) 泰坦尼克号乘客生存数据马赛克图：按性别、年龄和船舱等级划分
 
-```{r mosaicplot,fig=T,fig.width=5.2,fig.height=5,fig.cap="(ref:fig-mosaicplot)",fig.scap="(ref:fig-mosaicplot-s)"}
+```{r mosaicplot,fig=T,fig.width=5.2,fig.height=5,fig.cap="(ref:fig-mosaicplot)",fig.scap="(ref:fig-mosaicplot-s)", fig.show="hold"}
 par(mar = c(2, 3.5, .1, .1))
 mosaicplot(Titanic, shade = TRUE, main = "")
+
+#' Standardized residuals of a loglinear model 
+#' 
+#' @param x a contingency table
+#' @param margin a list of vectors with the marginal totals to be fit in the log-linear model
+#' @param type a character string indicating the type of residual to be represented. 
+#' Must be one of "pearson" (giving components of Pearson's chi-squared), "deviance" 
+#' (giving components of the likelihood ratio chi-squared), or "FT" for the 
+#' Freeman-Tukey residuals. The value of this argument can be abbreviated.
+mosaic_residual <- function(x, margin = NULL, type = c("pearson", "deviance", "FT")) {
+  if (is.null(margin)) { 
+    margin <- as.list(1:length(dim(x)))
+  }
+  
+  E <- stats::loglin(x, margin, fit = TRUE, print = FALSE)$fit
+  type <- match.arg(type)
+  residuals <- switch(type, pearson = (x - E)/sqrt(E), 
+    deviance = {
+      tmp <- 2 * (x * log(ifelse(x == 0, 1, x/E)) - 
+          (x - E))
+      tmp <- sqrt(pmax(tmp, 0))
+      ifelse(x > E, tmp, -tmp)
+    }, FT = sqrt(x) + sqrt(x + 1) - sqrt(4 * E + 1))
+  
+  residuals
+}
+
+titannic_tidy <- mosaic_residual(Titanic) %>% 
+  as.data.frame() %>% 
+  rename(residuals = Freq) %>% 
+  left_join(as.data.frame(Titanic), .) %>% 
+  mutate(
+    Sex = factor(Sex, levels = c("Female", "Male")),
+    Survived = factor(Survived, levels = c("Yes", "No"))
+  ) %>% 
+  arrange(Sex, Survived, Age) %>% # 与原图顺序一致
+  mutate(
+    standardized_residuals = cut(residuals, c( -Inf, -4, -2, 0, 2, 4, Inf)),
+    Freq = ifelse(Freq == 0, Freq + 0.5, Freq), # Freq为0时，显示较小矩形
+    class_age = factor(paste(Class, Age, sep = ":"), 
+      levels = paste(rep(levels(Class), each = 2), levels(Age), sep = ":"),
+    ),
+    sex_survived = paste(Sex, Survived, sep = ":")
+  ) %>% 
+  group_by(class_age) %>% 
+  mutate(group_count = sum(Freq))
+
+labels_breaks <- filter(titannic_tidy, class_age == "1st:Adult") %>% 
+  mutate(breaks = (cumsum(Freq) - 0.5 * Freq)/group_count)
+
+ggplot(titannic_tidy, aes(class_age, Freq, group = class_age)) +
+  geom_bar(aes(fill = standardized_residuals, width = group_count),
+    stat = "identity", position = "fill", colour = "white") +
+  facet_grid(~class_age, scales = "free_x", space = "free_x") +
+  coord_cartesian(clip = "off") +
+  scale_y_continuous(breaks = labels_breaks$breaks, 
+    labels = labels_breaks$sex_survived
+  ) +
+  labs(y = "Sex:Survived") +
+  guides(fill = guide_legend(title = "Standardized\nResiduals", 
+    title.position = "bottom", 
+    title.theme = element_text(angle = -90))
+  ) +
+  theme(
+    strip.text = element_blank(),
+    axis.ticks.length = unit(0, "pt"),
+    panel.spacing.x = unit(2, "pt"),
+  )
 ```
 
 
@@ -1364,9 +1432,52 @@ usage(graphics:::stripchart.formula)
 
 (ref:fig-sunflowerplot) 鸢尾花花瓣长和宽的向日葵散点图
 
-```{r sunflowerplot,fig.width=4,fig.height=4,fig.cap="(ref:fig-sunflowerplot)",fig.scap="(ref:fig-sunflowerplot-s)"}
+```{r sunflowerplot,fig.width=4,fig.height=4,fig.cap="(ref:fig-sunflowerplot)",fig.scap="(ref:fig-sunflowerplot-s)",fig.show="hold"}
 par(mar = c(4, 4, 0.2, 0.2))
 sunflowerplot(iris[, 3:4], col = "gold", seg.col = "gold")
+
+#' Get coordinates of flower leaves
+#' 
+#' @param x,y numberic vector of length one
+#' @param number number of the overplot points `(x, y)`
+#' @param size of sunflower leaves in inches, 1[in] := 2.54[cm]. Default: 1/8, 
+#' approximately 3.2mm.
+#' @param p ggplot object, points
+get_leaves <- function(x, y, number, p, size = 1/8) {
+  degree <- purrr::map_dbl(seq_len(number), ~ (2 * pi * .x)/number)
+  
+  degree <- (2 * pi)/number * seq_len(number)
+  
+  # sunflower leaves in inches, code was adapted from the source of function
+  # graphics:::sunflowerplot.default()
+  ppin <- par("pin")
+  p_scales <- layer_scales(p)
+  xrange <- p_scales$x$range$range
+  yrange <- p_scales$y$range$range
+  xr <- size * abs(xrange[2] - xrange[1])/ppin[1]
+  yr <- size * abs(yrange[2] - yrange[1])/ppin[2]
+  
+  data.frame(
+    x1 = x,
+    x2 = x + xr * sin(degree), 
+    y1 = y,
+    y2 = y + yr * cos(degree)
+  )
+}
+
+sunflower <- xyTable(iris[, 3:4]) %>% 
+  bind_cols()
+is_multiple <- sunflower$number > 1
+p <- ggplot() +
+  geom_point(aes(x, y), sunflower, col = "gold")
+leaves <- purrr::map_df(sunflower, ~ .x[which(is_multiple)]) %>% 
+  purrr::pmap(get_leaves, p = p) %>% 
+  bind_rows()
+
+p + geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), 
+  leaves, col = "gold") +
+  labs(x = "Petal.Length", y = "Petal.Width")
+
 ```
 
 向日葵散点图（Sunflower Scatter
